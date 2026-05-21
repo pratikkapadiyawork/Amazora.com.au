@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Link                    from 'next/link'
 import { motion }              from 'framer-motion'
 import { ShoppingBag, Truck, CreditCard, ChevronRight, Tag, X } from 'lucide-react'
@@ -30,7 +30,7 @@ function lineUnitPrice(quote: PricedOrder | null, item: CartItem): number {
 
 export function CheckoutClient() {
   const { items, removeItem, updateQty, coupon, setCoupon, removeCoupon,
-          itemCount, applyServerLines } = useCartStore()
+          itemCount, applyServerPrices } = useCartStore()
 
   const [step,         setStep]         = useState<Step>('Cart')
   const [form,         setForm]         = useState<CheckoutFormData>({})
@@ -46,6 +46,7 @@ export function CheckoutClient() {
   const [quoteError,   setQuoteError]   = useState('')
   const [quoteLoading, setQuoteLoading] = useState(true)
   const [chargedTotal, setChargedTotal]   = useState<number | null>(null)
+  const quoteFetchRef = useRef(0)
 
   const refreshQuote = useCallback(async () => {
     if (items.length === 0) {
@@ -54,18 +55,20 @@ export function CheckoutClient() {
       setQuoteLoading(false)
       return
     }
+    const fetchId = ++quoteFetchRef.current
     setQuoteLoading(true)
     const result = await fetchCheckoutQuote(items, shippingId, coupon?.code)
+    if (fetchId !== quoteFetchRef.current) return
     setQuoteLoading(false)
     if (result.ok) {
       setQuote(result.order)
       setQuoteError('')
-      applyServerLines(result.order.lines)
+      applyServerPrices(result.order.lines)
     } else {
       setQuote(null)
       setQuoteError(result.error)
     }
-  }, [items, shippingId, coupon?.code, applyServerLines])
+  }, [items, shippingId, coupon?.code, applyServerPrices])
 
   useEffect(() => {
     const id = setTimeout(() => setMounted(true), 0)
@@ -74,7 +77,10 @@ export function CheckoutClient() {
 
   useEffect(() => {
     if (!mounted) return
-    void refreshQuote()
+    const timer = setTimeout(() => {
+      void refreshQuote()
+    }, 300)
+    return () => clearTimeout(timer)
   }, [mounted, refreshQuote])
 
   if (!mounted) {

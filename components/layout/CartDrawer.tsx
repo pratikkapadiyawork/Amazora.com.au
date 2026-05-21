@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { X, Trash2, Tag, ChevronRight, Truck, ShoppingBag } from 'lucide-react'
 import { useCartStore }      from '@/store/cartStore'
 import type { CartItem }     from '@/store/cartStore'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import type { PricedOrder }  from '@/lib/checkout-pricing'
 import { cartLinesForQuote, fetchCheckoutQuote } from '@/lib/checkout-quote-client'
 import { QtyInput }          from '@/components/shared/QtyInput'
@@ -29,33 +29,43 @@ export function CartDrawer() {
   const {
     items, isOpen, closeCart, removeItem, updateQty,
     subtotal, discount, shipping, gst, total, itemCount,
-    coupon, setCoupon, removeCoupon, applyServerLines,
+    coupon, setCoupon, removeCoupon, applyServerPrices,
   } = useCartStore()
 
   const [serverOrder, setServerOrder] = useState<PricedOrder | null>(null)
+  const priceFetchRef = useRef(0)
 
   const refreshPrices = useCallback(async () => {
     if (items.length === 0) {
       setServerOrder(null)
       return
     }
+    const fetchId = ++priceFetchRef.current
     const result = await fetchCheckoutQuote(items, 'standard', coupon?.code)
+    if (fetchId !== priceFetchRef.current) return
     if (result.ok) {
       setServerOrder(result.order)
-      applyServerLines(result.order.lines)
+      applyServerPrices(result.order.lines)
     }
-  }, [items, coupon?.code, applyServerLines])
+  }, [items, coupon?.code, applyServerPrices])
 
   useEffect(() => {
     if (!isOpen) return
-    void refreshPrices()
-  }, [isOpen, refreshPrices])
+    if (items.length === 0) {
+      setServerOrder(null)
+      return
+    }
+    const timer = setTimeout(() => {
+      void refreshPrices()
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [isOpen, items, coupon?.code, refreshPrices])
 
-  const sub       = serverOrder?.subtotal ?? subtotal()
-  const disc      = serverOrder?.discount ?? discount()
-  const ship      = serverOrder?.shippingCost ?? shipping()
-  const tot       = serverOrder?.total ?? total()
-  const gstAmount = serverOrder?.tax ?? gst()
+  const sub       = subtotal()
+  const disc      = discount()
+  const ship      = shipping()
+  const tot       = total()
+  const gstAmount = gst()
   const count     = itemCount()
   const progress  = Math.min((sub / FREE_SHIPPING_THRESHOLD) * 100, 100)
   const remaining = Math.max(FREE_SHIPPING_THRESHOLD - sub, 0)
