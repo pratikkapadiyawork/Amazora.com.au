@@ -5,7 +5,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { X, Trash2, Tag, ChevronRight, Truck, ShoppingBag } from 'lucide-react'
 import { useCartStore }      from '@/store/cartStore'
-import { useEffect, useState } from 'react'
+import type { CartItem }     from '@/store/cartStore'
+import { useEffect, useState, useCallback } from 'react'
+import type { PricedOrder }  from '@/lib/checkout-pricing'
+import { cartLinesForQuote, fetchCheckoutQuote } from '@/lib/checkout-quote-client'
 import { QtyInput }          from '@/components/shared/QtyInput'
 import { PaymentBadges }     from '@/components/shared/PaymentBadges'
 import { formatPrice }       from '@/lib/constants'
@@ -13,19 +16,48 @@ import { toast }             from 'sonner'
 
 const FREE_SHIPPING_THRESHOLD = 99
 
+function lineUnitPrice(quote: PricedOrder | null, item: CartItem): number {
+  const line = quote?.lines.find(
+    l =>
+      l.productId === item.productId &&
+      (l.variant ?? 'default') === (item.variant ?? 'default'),
+  )
+  return line?.price ?? item.price
+}
+
 export function CartDrawer() {
   const {
     items, isOpen, closeCart, removeItem, updateQty,
     subtotal, discount, shipping, gst, total, itemCount,
-    coupon, setCoupon, removeCoupon,
+    coupon, setCoupon, removeCoupon, applyServerLines,
   } = useCartStore()
 
-  const sub      = subtotal()
-  const disc     = discount()
-  const ship     = shipping()
-  const tot      = total()
-  const count    = itemCount()
-  const progress = Math.min((sub / FREE_SHIPPING_THRESHOLD) * 100, 100)
+  const [serverOrder, setServerOrder] = useState<PricedOrder | null>(null)
+
+  const refreshPrices = useCallback(async () => {
+    if (items.length === 0) {
+      setServerOrder(null)
+      return
+    }
+    const result = await fetchCheckoutQuote(items, 'standard', coupon?.code)
+    if (result.ok) {
+      setServerOrder(result.order)
+      applyServerLines(result.order.lines)
+    }
+  }, [items, coupon?.code, applyServerLines])
+
+  useEffect(() => {
+    if (!isOpen) return
+    void refreshPrices()
+  }, [isOpen, refreshPrices])
+
+  const sub       = serverOrder?.subtotal ?? subtotal()
+  const disc      = serverOrder?.discount ?? discount()
+  const ship      = serverOrder?.shippingCost ?? shipping()
+  const tot       = serverOrder?.total ?? total()
+  const gstAmount = serverOrder?.tax ?? gst()
+  const count     = itemCount()
+  const progress  = Math.min((sub / FREE_SHIPPING_THRESHOLD) * 100, 100)
   const remaining = Math.max(FREE_SHIPPING_THRESHOLD - sub, 0)
 
   // Lock body scroll when open; dim main content behind drawer
@@ -61,7 +93,11 @@ export function CartDrawer() {
       const res  = await fetch('/api/coupons/validate', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ code: couponInput.trim(), subtotal: sub }),
+        body:    JSON.stringify({
+          code:     couponInput.trim(),
+          items:    cartLinesForQuote(items),
+          shipping: 'standard',
+        }),
       })
       const data = await res.json()
       if (data.valid) {
@@ -203,7 +239,7 @@ export function CartDrawer() {
                               variant="dark"
                             />
                             <p className="text-brand-red font-bold text-sm whitespace-nowrap">
-                              {formatPrice(item.price * item.qty)}
+                              {formatPrice(lineUnitPrice(serverOrder, item) * item.qty)}
                             </p>
                           </div>
                         </div>
@@ -287,7 +323,7 @@ export function CartDrawer() {
                   </div>
                   <div className="flex justify-between text-white/40 text-xs">
                     <span>GST (incl.)</span>
-                    <span>{formatPrice(gst())}</span>
+                    <span>{formatPrice(gstAmount)}</span>
                   </div>
                   <div className="flex justify-between text-white font-bold text-base pt-1.5 border-t border-white/10">
                     <span>Total</span>

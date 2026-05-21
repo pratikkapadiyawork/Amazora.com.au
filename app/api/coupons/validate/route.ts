@@ -1,12 +1,23 @@
-import { prisma }         from '@/lib/db'
+import { prisma } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
+import { priceCartFromDatabase } from '@/lib/checkout-pricing'
 
 export async function POST(req: NextRequest) {
-  const { code, subtotal } = await req.json()
+  const { code, items, shipping } = await req.json()
 
   if (!code) {
     return NextResponse.json({ valid: false, message: 'No coupon code provided' })
   }
+
+  const priced = await priceCartFromDatabase(
+    items ?? [],
+    shipping ?? 'standard',
+  )
+  if (!priced.ok) {
+    return NextResponse.json({ valid: false, message: priced.error })
+  }
+
+  const subtotal = priced.order.subtotal
 
   const coupon = await prisma.coupon.findUnique({
     where: { code: String(code).toUpperCase() },
@@ -25,7 +36,7 @@ export async function POST(req: NextRequest) {
   }
 
   const minOrder = coupon.minOrder ? Number(coupon.minOrder) : null
-  if (minOrder !== null && Number(subtotal) < minOrder) {
+  if (minOrder !== null && subtotal < minOrder) {
     return NextResponse.json({
       valid:   false,
       message: `Minimum order of A$${minOrder.toFixed(2)} required for this coupon`,
@@ -35,8 +46,8 @@ export async function POST(req: NextRequest) {
   const value    = Number(coupon.value)
   const discount =
     coupon.type === 'PERCENTAGE'
-      ? Number(subtotal) * (value / 100)
-      : Math.min(value, Number(subtotal))
+      ? subtotal * (value / 100)
+      : Math.min(value, subtotal)
 
   return NextResponse.json({
     valid:    true,

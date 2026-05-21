@@ -1,13 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link                    from 'next/link'
 import { motion }              from 'framer-motion'
 import { ShoppingBag, Truck, CreditCard, ChevronRight, Tag, X } from 'lucide-react'
 import { useCartStore }        from '@/store/cartStore'
+import type { CartItem }       from '@/store/cartStore'
 import { SHIPPING }           from '@/lib/constants'
 import { AU_STATES }          from '@/types'
 import type { CheckoutFormData } from '@/types'
+import type { PricedOrder }    from '@/lib/checkout-pricing'
+import { cartLinesForQuote, fetchCheckoutQuote } from '@/lib/checkout-quote-client'
 import { SmartImage }          from '@/components/shared/SmartImage'
 import { PriceDisplay }        from '@/components/shared/PriceDisplay'
 import { StripePaymentForm }   from '@/components/checkout/StripePaymentForm'
@@ -16,9 +19,18 @@ import { toast }               from 'sonner'
 const STEPS = ['Cart', 'Delivery', 'Payment'] as const
 type Step = typeof STEPS[number]
 
+function lineUnitPrice(quote: PricedOrder | null, item: CartItem): number {
+  const line = quote?.lines.find(
+    l =>
+      l.productId === item.productId &&
+      (l.variant ?? 'default') === (item.variant ?? 'default'),
+  )
+  return line?.price ?? item.price
+}
+
 export function CheckoutClient() {
-  const { items, subtotal, discount, removeItem, updateQty,
-          coupon, setCoupon, removeCoupon, itemCount } = useCartStore()
+  const { items, removeItem, updateQty, coupon, setCoupon, removeCoupon,
+          itemCount, applyServerLines } = useCartStore()
 
   const [step,         setStep]         = useState<Step>('Cart')
   const [form,         setForm]         = useState<CheckoutFormData>({})
@@ -30,11 +42,40 @@ export function CheckoutClient() {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [orderId,      setOrderId]      = useState<string | null>(null)
   const [payError,     setPayError]     = useState('')
+  const [quote,        setQuote]        = useState<PricedOrder | null>(null)
+  const [quoteError,   setQuoteError]   = useState('')
+  const [quoteLoading, setQuoteLoading] = useState(true)
+  const [chargedTotal, setChargedTotal]   = useState<number | null>(null)
+
+  const refreshQuote = useCallback(async () => {
+    if (items.length === 0) {
+      setQuote(null)
+      setQuoteError('')
+      setQuoteLoading(false)
+      return
+    }
+    setQuoteLoading(true)
+    const result = await fetchCheckoutQuote(items, shippingId, coupon?.code)
+    setQuoteLoading(false)
+    if (result.ok) {
+      setQuote(result.order)
+      setQuoteError('')
+      applyServerLines(result.order.lines)
+    } else {
+      setQuote(null)
+      setQuoteError(result.error)
+    }
+  }, [items, shippingId, coupon?.code, applyServerLines])
 
   useEffect(() => {
     const id = setTimeout(() => setMounted(true), 0)
     return () => clearTimeout(id)
   }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+    void refreshQuote()
+  }, [mounted, refreshQuote])
 
   if (!mounted) {
     return (
@@ -57,29 +98,31 @@ export function CheckoutClient() {
     )
   }
 
-  const sub       = subtotal()
-  const disc      = discount()
-  const ship      = SHIPPING.find(s => s.id === shippingId)?.price ?? 9.99
-  const freeShip  = sub - disc >= 99
-  const shipCost  = freeShip ? 0 : ship
-  const taxable   = sub - disc + shipCost
-  const gstAmt    = taxable * (0.10 / 1.10)
-  const orderTotal = sub - disc + shipCost
+  const sub        = quote?.subtotal ?? 0
+  const disc       = quote?.discount ?? 0
+  const shipCost   = quote?.shippingCost ?? 0
+  const gstAmt     = quote?.tax ?? 0
+  const orderTotal = chargedTotal ?? quote?.total ?? 0
+  const freeShip   = shipCost === 0 && sub - disc >= 99
 
   const applyCoupon = async () => {
     if (!couponInput.trim()) return
     const res = await fetch('/api/coupons/validate', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ code: couponInput.trim(), subtotal: sub }),
+      body:    JSON.stringify({
+        code:     couponInput.trim(),
+        items:    cartLinesForQuote(items),
+        shipping: shippingId,
+      }),
     })
     const data = await res.json()
     if (data.valid) {
-      setCoupon({ code: couponInput.trim(), discount: data.discount, type: data.type })
+      setCoupon({ code: couponInput.trim().toUpperCase(), discount: data.discount, type: data.type })
       setCouponInput('')
       setCouponError('')
     } else {
-      setCouponError(data.error ?? 'Invalid coupon code')
+      setCouponError(data.message ?? data.error ?? 'Invalid coupon code')
     }
   }
 
@@ -91,19 +134,10 @@ export function CheckoutClient() {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({
-          items:    items.map(i => ({
-            productId: i.productId,
-            name:      i.name,
-            slug:      i.slug,
-            image:     i.image,
-            price:     i.price,
-            qty:       i.qty,
-            variant:   i.variant,
-          })),
+          items:    cartLinesForQuote(items),
           form,
           shipping: shippingId,
           coupon:   coupon?.code,
-          total:    orderTotal,
         }),
       })
       const data = await res.json()
@@ -111,6 +145,7 @@ export function CheckoutClient() {
       if (!data.clientSecret || !data.orderId) throw new Error('Invalid payment response')
       setClientSecret(data.clientSecret)
       setOrderId(data.orderId)
+      setChargedTotal(typeof data.total === 'number' ? data.total : quote?.total ?? 0)
       setStep('Payment')
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Checkout failed'
@@ -196,7 +231,10 @@ export function CheckoutClient() {
                         </button>
                       </div>
                     </div>
-                    <PriceDisplay price={item.price * item.qty} size="sm" />
+                    <PriceDisplay
+                      price={lineUnitPrice(quote, item) * item.qty}
+                      size="sm"
+                    />
                   </div>
                 ))}
 
@@ -316,7 +354,7 @@ export function CheckoutClient() {
                   <p className="text-xs font-semibold text-brand-navy mb-3">Shipping Method</p>
                   <div className="space-y-2">
                     {SHIPPING.map(opt => {
-                      const isFree = sub - disc >= 99 && opt.id === 'standard'
+                      const isFree = (quote?.subtotal ?? 0) - (quote?.discount ?? 0) >= 99 && opt.id === 'standard'
                       return (
                         <label
                           key={opt.id}
@@ -351,7 +389,7 @@ export function CheckoutClient() {
                 <motion.button
                   whileTap={{ scale: 0.98 }}
                   onClick={preparePayment}
-                  disabled={processing}
+                  disabled={processing || quoteLoading || !!quoteError || !quote}
                   className="w-full h-12 bg-brand-red text-white rounded-xl font-semibold flex items-center justify-center gap-2 disabled:opacity-60"
                 >
                   {processing ? (
@@ -386,6 +424,12 @@ export function CheckoutClient() {
           <div className="space-y-4">
             <div className="bg-white rounded-2xl p-6 shadow-sm">
               <h3 className="font-bold text-brand-navy mb-4">Order Summary</h3>
+              {quoteError && (
+                <p className="text-red-600 text-xs mb-3">{quoteError}</p>
+              )}
+              {quoteLoading && (
+                <p className="text-brand-muted text-xs mb-3">Updating prices…</p>
+              )}
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-brand-muted">Subtotal ({itemCount()} items)</span>

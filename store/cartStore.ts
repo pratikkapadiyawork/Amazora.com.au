@@ -27,6 +27,7 @@ interface CartState {
   toggleCart:   () => void
   setCoupon:    (coupon: CartState['coupon']) => void
   removeCoupon: () => void
+  applyServerLines: (lines: { productId: string; variant?: string; price: number; qty: number }[]) => void
   subtotal:     () => number
   discount:     () => number
   shipping:     () => number
@@ -84,6 +85,19 @@ export const useCartStore = create<CartState>()(
       toggleCart:   () => set(s => ({ isOpen: !s.isOpen })),
       setCoupon:    (coupon) => set({ coupon }),
       removeCoupon: () => set({ coupon: null }),
+
+      applyServerLines: (lines) => {
+        set(state => ({
+          items: state.items.map(item => {
+            const line = lines.find(
+              l =>
+                l.productId === item.productId &&
+                (l.variant ?? 'default') === (item.variant ?? 'default'),
+            )
+            return line ? { ...item, price: line.price, qty: line.qty } : item
+          }),
+        }))
+      },
 
       subtotal: () => get().items.reduce((s, i) => s + i.price * i.qty, 0),
 

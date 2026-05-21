@@ -1,27 +1,17 @@
 import { NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { prisma } from '@/lib/db'
-import { generateOrderNumber, SHIPPING } from '@/lib/constants'
-
-interface CartLine {
-  productId: string
-  name: string
-  slug: string
-  image: string
-  price: number
-  qty: number
-  variant?: string
-}
+import { generateOrderNumber } from '@/lib/constants'
+import { priceCartFromDatabase } from '@/lib/checkout-pricing'
 
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { items, form, shipping, coupon, total } = body as {
-      items: CartLine[]
+    const { items, form, shipping, coupon } = body as {
+      items: { productId: string; qty: number; variant?: string }[]
       form?: Record<string, string>
       shipping: string
       coupon?: string
-      total: number
     }
 
     if (!items?.length) {
@@ -32,27 +22,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Please complete all delivery fields' }, { status: 400 })
     }
 
-    const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0)
-    let discount = 0
-
-    if (coupon) {
-      const c = await prisma.coupon.findUnique({ where: { code: coupon.toUpperCase() } })
-      if (c?.isActive) {
-        discount = c.type === 'PERCENTAGE'
-          ? subtotal * (Number(c.value) / 100)
-          : Number(c.value)
-      }
+    const priced = await priceCartFromDatabase(items, shipping ?? 'standard', coupon)
+    if (!priced.ok) {
+      return NextResponse.json({ error: priced.error }, { status: 400 })
     }
 
-    const shipOpt = SHIPPING.find(s => s.id === shipping) ?? SHIPPING[0]
-    const freeShip = subtotal - discount >= 99
-    const shippingCost = freeShip && shipping === 'standard' ? 0 : shipOpt.price
-    const orderTotal = Math.max(0, subtotal - discount + shippingCost)
-    const tax = orderTotal * (0.10 / 1.10)
-
-    if (Math.abs(orderTotal - total) > 0.05) {
-      return NextResponse.json({ error: 'Order total mismatch — refresh and try again' }, { status: 400 })
-    }
+    const { lines, subtotal, discount, shippingCost, tax, total, couponCode } = priced.order
 
     const order = await prisma.order.create({
       data: {
@@ -68,15 +43,15 @@ export async function POST(req: Request) {
           state:    form.state,
           postcode: form.postcode,
         },
-        shippingMethod: shipping,
+        shippingMethod: shipping ?? 'standard',
         subtotal,
         shippingCost,
         discount,
         tax,
-        total: orderTotal,
-        couponCode: coupon ?? null,
+        total,
+        couponCode,
         items: {
-          create: items.map(item => ({
+          create: lines.map(item => ({
             productId: item.productId,
             name:      item.name,
             image:     item.image,
@@ -88,26 +63,18 @@ export async function POST(req: Request) {
       },
     })
 
-    const amountCents = Math.round(orderTotal * 100)
+    const amountCents = Math.round(total * 100)
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount:   amountCents,
-      currency: 'aud',
+      amount:        amountCents,
+      currency:      'aud',
       receipt_email: form.email,
       metadata: {
         orderId:        order.id,
         orderNumber:    order.orderNumber,
         email:          form.email,
         name:           `${form.firstName} ${form.lastName}`.trim(),
-        address:        JSON.stringify({
-          address1: form.address1,
-          address2: form.address2,
-          city:     form.city,
-          state:    form.state,
-          postcode: form.postcode,
-        }),
-        shippingMethod: shipping,
-        cart:           JSON.stringify(items.slice(0, 20)),
+        shippingMethod: shipping ?? 'standard',
         subtotal:       String(subtotal),
         discount:       String(discount),
         shipping:       String(shippingCost),
@@ -124,6 +91,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       clientSecret: paymentIntent.client_secret,
       orderId:      order.id,
+      total,
     })
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Checkout failed'
