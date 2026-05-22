@@ -7,10 +7,17 @@ export const DEFAULT_KEYWORDS = [
   'amazora',
   'amazora australia',
   'amazora.com.au',
+  'amazora shop',
+  'amazora store',
   'amazora gifts',
+  'amazora online',
+  'buy amazora',
   'premium gifts australia',
   'luxury gifts online australia',
   'australian gift shop',
+  'australia gift',
+  'australia gifts online',
+  'australian gift store',
   'gifts delivered australia',
   'marble chess set australia',
   'leather wallet australia',
@@ -25,6 +32,9 @@ export const DEFAULT_KEYWORDS = [
   'birthday gifts australia',
   'wedding gifts australia',
   'christmas gifts australia',
+  'pawn shop gifts australia',
+  'collectibles australia',
+  'souvenir shop australia',
 ]
 
 export function productKeywords(input: {

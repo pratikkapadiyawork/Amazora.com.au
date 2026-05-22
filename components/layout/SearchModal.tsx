@@ -173,7 +173,7 @@ export function SearchModal() {
 
                   {total > 8 && (
                     <Link
-                      href={`/shop?q=${encodeURIComponent(query)}`}
+                      href={`/products?q=${encodeURIComponent(query)}`}
                       onClick={handleClose}
                     >
                       <div className="flex items-center justify-center gap-1.5 py-3 text-brand-red text-sm font-semibold hover:bg-white/5 transition-colors border-t border-white/[0.08]">

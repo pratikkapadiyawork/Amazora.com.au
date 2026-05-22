@@ -7,7 +7,7 @@ import {
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { ShoppingBag, Search, Heart } from 'lucide-react'
+import { ShoppingBag, Search, Heart, LayoutGrid } from 'lucide-react'
 import { UserButton, SignInButton, useUser } from '@clerk/nextjs'
 import { useCartStore }     from '@/store/cartStore'
 import { useWishlistStore } from '@/store/wishlistStore'
@@ -157,12 +157,22 @@ export function Navbar() {
               )}
             </div>
 
-            <NavIconButton
-              onClick={openCart}
-              label={`Shopping cart (${itemCount} items)`}
-              icon={<ShoppingBag size={20} />}
-              badge={itemCount}
-            />
+            <div className="lg:hidden">
+              <NavIconButton
+                href="/products"
+                label="Browse all products"
+                icon={<LayoutGrid size={20} />}
+              />
+            </div>
+
+            <div className="hidden lg:block">
+              <NavIconButton
+                onClick={openCart}
+                label={`Shopping cart (${itemCount} items)`}
+                icon={<ShoppingBag size={20} />}
+                badge={itemCount}
+              />
+            </div>
           </div>
         </div>
       </motion.header>

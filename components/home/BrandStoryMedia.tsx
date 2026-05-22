@@ -22,6 +22,13 @@ export function BrandStoryMedia() {
 
   const isFloating = popupMode && !popupClosed
 
+  const muteVideo = useCallback(() => {
+    const v = videoRef.current
+    if (!v) return
+    v.muted = true
+    v.pause()
+  }, [])
+
   const playVideo = useCallback(async (withSound: boolean) => {
     const v = videoRef.current
     if (!v) return
@@ -67,6 +74,8 @@ export function BrandStoryMedia() {
         } else if (ratio < 0.08 && ready && !popupClosed) {
           setPopupMode(true)
           void playVideo(audioOn)
+        } else {
+          muteVideo()
         }
       },
       { threshold: [0, 0.08, 0.28, 0.5] },
@@ -74,7 +83,7 @@ export function BrandStoryMedia() {
 
     observer.observe(el)
     return () => observer.disconnect()
-  }, [audioOn, playVideo, ready, popupClosed])
+  }, [audioOn, playVideo, ready, popupClosed, muteVideo])
 
   const enableAudio = async () => {
     setAudioOn(true)
@@ -98,15 +107,15 @@ export function BrandStoryMedia() {
   }
 
   const closePopup = () => {
+    muteVideo()
     setPopupClosed(true)
     setPopupMode(false)
-    videoRef.current?.pause()
   }
 
   const reopenPopup = () => {
     setPopupClosed(false)
     setPopupMode(true)
-    void playVideo(audioOn)
+    void playVideo(false)
   }
 
   return (

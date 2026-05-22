@@ -416,14 +416,11 @@ export function SummerSaleShowcase(_props: SummerSaleShowcaseProps) {
                   {added === p.slug ? '✓ Added to Cart!' : `Add to Cart — A$${p.salePrice.toFixed(2)}`}
                 </motion.button>
 
-                <Link href={`/shop/${p.slug}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="h-14 px-7 rounded-2xl glass border border-white/20 text-brand-cream font-semibold text-sm hover:bg-white/10 transition-all duration-300 w-full sm:w-auto"
-                  >
-                    View Details →
-                  </motion.button>
+                <Link
+                  href={`/shop/${p.slug}`}
+                  className="relative z-30 inline-flex h-14 px-7 items-center justify-center rounded-2xl glass border border-white/20 text-brand-cream font-semibold text-sm hover:bg-white/10 transition-all duration-300 w-full sm:w-auto"
+                >
+                  View Details →
                 </Link>
               </motion.div>
             </AnimatePresence>

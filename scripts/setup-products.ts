@@ -528,6 +528,22 @@ const PRODUCTS: Array<{
     desc: 'Everything a cigar enthusiast needs. Full-grain leather case for 2 cigars, integrated guillotine cutter for a perfect cut every time. Velvet-lined interior, jacket-pocket slim.',
     tags: ['cigar', 'case', 'cutter', 'set', 'leather', 'gift'],
   },
+  {
+    slug: 'cigar-cutter-cc1', name: 'Cigar Cutter — Precision Guillotine CC1',
+    price: 14.95, cat: 'leather', imgKey: 'cigar-cutter--cc1-1495',
+    featured: true, sku: 'CIG-CUT-CC1',
+    short: 'Surgical-grade stainless guillotine cutter. Fits all standard ring gauges.',
+    desc: 'Surgical-grade stainless steel guillotine cutter with a razor-sharp blade. Fits all standard ring gauges. Summer sale favourite — the perfect cigar essential.',
+    tags: ['cigar', 'cutter', 'guillotine', 'stainless steel', 'summer-sale', 'gift'],
+  },
+  {
+    slug: 'cigar-cutter-cc2', name: 'Cigar Cutter — Double-Blade Guillotine',
+    price: 16.95, cat: 'leather', imgKey: 'cigar-cutter--cc2',
+    featured: false, sku: 'CIG-CUT-CC2',
+    short: 'Double-blade guillotine for a clean, even cut.',
+    desc: 'Premium double-blade guillotine cigar cutter. Self-sharpening stainless blades, ergonomic grip, pocket-sized.',
+    tags: ['cigar', 'cutter', 'guillotine', 'gift'],
+  },
 
   // ═══════════════════════════════════════════════════════
   // GUITARS  (Guitar ($29.95) → guitar-29-95)
