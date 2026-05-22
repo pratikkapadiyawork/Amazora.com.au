@@ -30,7 +30,7 @@ function lineUnitPrice(quote: PricedOrder | null, item: CartItem): number {
 
 export function CheckoutClient() {
   const { items, removeItem, updateQty, coupon, setCoupon, removeCoupon,
-          itemCount, applyServerPrices } = useCartStore()
+          itemCount, applyServerPrices, subtotal, discount, shipping, gst, total } = useCartStore()
 
   const [step,         setStep]         = useState<Step>('Cart')
   const [form,         setForm]         = useState<CheckoutFormData>({})
@@ -44,7 +44,6 @@ export function CheckoutClient() {
   const [payError,     setPayError]     = useState('')
   const [quote,        setQuote]        = useState<PricedOrder | null>(null)
   const [quoteError,   setQuoteError]   = useState('')
-  const [quoteLoading, setQuoteLoading] = useState(true)
   const [chargedTotal, setChargedTotal]   = useState<number | null>(null)
   const quoteFetchRef = useRef(0)
 
@@ -52,14 +51,11 @@ export function CheckoutClient() {
     if (items.length === 0) {
       setQuote(null)
       setQuoteError('')
-      setQuoteLoading(false)
       return
     }
     const fetchId = ++quoteFetchRef.current
-    setQuoteLoading(true)
     const result = await fetchCheckoutQuote(items, shippingId, coupon?.code)
     if (fetchId !== quoteFetchRef.current) return
-    setQuoteLoading(false)
     if (result.ok) {
       setQuote(result.order)
       setQuoteError('')
@@ -104,11 +100,11 @@ export function CheckoutClient() {
     )
   }
 
-  const sub        = quote?.subtotal ?? 0
-  const disc       = quote?.discount ?? 0
-  const shipCost   = quote?.shippingCost ?? 0
-  const gstAmt     = quote?.tax ?? 0
-  const orderTotal = chargedTotal ?? quote?.total ?? 0
+  const sub        = quote?.subtotal ?? subtotal()
+  const disc       = quote?.discount ?? discount()
+  const shipCost   = quote?.shippingCost ?? shipping()
+  const gstAmt     = quote?.tax ?? gst()
+  const orderTotal = chargedTotal ?? quote?.total ?? total()
   const freeShip   = shipCost === 0 && sub - disc >= 99
 
   const applyCoupon = async () => {
@@ -136,6 +132,17 @@ export function CheckoutClient() {
     setProcessing(true)
     setPayError('')
     try {
+      if (!quote) {
+        const result = await fetchCheckoutQuote(items, shippingId, coupon?.code)
+        if (!result.ok) {
+          setQuoteError(result.error)
+          toast.error(result.error)
+          return
+        }
+        setQuote(result.order)
+        applyServerPrices(result.order.lines)
+      }
+
       const res = await fetch('/api/checkout/create-intent', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -395,7 +402,7 @@ export function CheckoutClient() {
                 <motion.button
                   whileTap={{ scale: 0.98 }}
                   onClick={preparePayment}
-                  disabled={processing || quoteLoading || !!quoteError || !quote}
+                  disabled={processing || !!quoteError}
                   className="w-full h-12 bg-brand-red text-white rounded-xl font-semibold flex items-center justify-center gap-2 disabled:opacity-60"
                 >
                   {processing ? (
@@ -432,9 +439,6 @@ export function CheckoutClient() {
               <h3 className="font-bold text-brand-navy mb-4">Order Summary</h3>
               {quoteError && (
                 <p className="text-red-600 text-xs mb-3">{quoteError}</p>
-              )}
-              {quoteLoading && (
-                <p className="text-brand-muted text-xs mb-3">Updating prices…</p>
               )}
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
