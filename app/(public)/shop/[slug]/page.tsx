@@ -3,6 +3,7 @@ import { notFound }          from 'next/navigation'
 import { prisma }            from '@/lib/db'
 import { ProductDetail }     from '@/components/shop/ProductDetail'
 import { ProductCard }       from '@/components/shop/ProductCard'
+import { productJsonLd, productKeywords, SITE_URL } from '@/lib/seo'
 import type { ProductCard as T } from '@/types'
 
 export const revalidate = 3600
@@ -23,17 +24,32 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
   const product  = await prisma.product.findUnique({
     where: { slug },
-    select: { name: true, shortDesc: true, images: true, seoTitle: true, seoDesc: true },
+    select: {
+      name: true, shortDesc: true, images: true, seoTitle: true, seoDesc: true,
+      seoKeywords: true, tags: true, category: { select: { name: true } },
+    },
   }).catch(() => null)
 
   if (!product) return { title: 'Product Not Found | Amazora' }
 
+  const keywords = productKeywords({
+    name: product.name,
+    tags: product.tags,
+    categoryName: product.category.name,
+    seoKeywords: product.seoKeywords,
+  })
+
   return {
-    title:       product.seoTitle ?? `${product.name} | Amazora`,
-    description: product.seoDesc  ?? product.shortDesc ?? '',
+    title:       product.seoTitle ?? `${product.name} | Buy Online Australia — Amazora`,
+    description: product.seoDesc  ?? product.shortDesc ?? `Shop ${product.name} at Amazora Australia. Premium quality, fast delivery.`,
+    keywords,
+    alternates:  { canonical: `${SITE_URL}/shop/${slug}` },
     openGraph: {
-      title:  product.name,
-      images: product.images[0] ? [{ url: product.images[0] }] : [],
+      title:  `${product.name} | Amazora Australia`,
+      description: product.seoDesc ?? product.shortDesc ?? undefined,
+      url: `${SITE_URL}/shop/${slug}`,
+      locale: 'en_AU',
+      images: product.images[0] ? [{ url: product.images[0], alt: product.name }] : [],
     },
   }
 }
@@ -75,8 +91,22 @@ export default async function ProductPage({ params }: PageProps) {
     data:  { viewCount: { increment: 1 } },
   }).catch(() => null)
 
+  const ld = productJsonLd({
+    name:        product.name,
+    slug:        product.slug,
+    description: product.shortDesc ?? product.description.slice(0, 320),
+    price:       Number(product.price),
+    images:      product.images,
+    sku:         product.sku,
+    categoryName: product.category.name,
+  })
+
   return (
     <div className="min-h-screen bg-brand-cream">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+      />
       <ProductDetail product={product} />
 
       {relatedProducts.length > 0 && (

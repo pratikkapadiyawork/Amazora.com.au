@@ -12,7 +12,7 @@ const CAT_META: Record<string, { img: string | null; emoji: string; gradient: st
   'ships':       { img: '/images/Ships,_Planes_.jpeg',          emoji: '⚓',  gradient: 'linear-gradient(145deg,#020f26,#1a5a9e)' },
   'ceramic':     { img: '/images/Ceramic_&_Glass_Decor_.jpeg',  emoji: '🏺',  gradient: 'linear-gradient(145deg,#1e1008,#7a5030)' },
   'hip-flasks':  { img: '/images/Hip_Flasks_.jpeg',             emoji: '🥃',  gradient: 'linear-gradient(145deg,#0d1a2e,#2d5080)' },
-  'gifts':       { img: null,                                    emoji: '🎁',  gradient: 'linear-gradient(145deg,#3a0810,#e63946)' },
+  'gifts':       { img: '/images/australia_special.jpeg',        emoji: '🎁',  gradient: 'linear-gradient(145deg,#3a0810,#e63946)' },
 }
 
 function CatCard({ cat, i }: { cat: any; i: number }) {

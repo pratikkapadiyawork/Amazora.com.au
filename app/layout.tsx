@@ -32,10 +32,12 @@ export const metadata: Metadata = {
   description:
     'Discover curated premium gifts, marble chess sets, leather accessories, humidors, hip flasks and more. Free delivery across Australia on orders over A$99. Shop Amazora — Trusted by Australians.',
   keywords: [
+    'amazora', 'amazora australia', 'amazora.com.au', 'amazora gifts', 'amazora shop',
     'premium gifts Australia', 'marble chess set Australia', 'luxury gifts online',
     'leather accessories Australia', 'humidor Australia', 'hip flask gift Australia',
     'ceramic decor Australia', 'premium gift sets', 'Australian gift shop',
-    'amazora', 'amazora.com.au',
+    'unique australian gifts', 'gifts for him australia', 'gifts for her australia',
+    'buy gifts online australia', 'ned kelly gift', 'ships models australia',
   ],
   authors: [{ name: 'Amazora', url: 'https://amazora.com.au' }],
   creator: 'Amazora Pty Ltd',

@@ -31,7 +31,7 @@ export function SearchModal() {
   const [loading, setLoading] = useState(false)
   const [total,   setTotal]   = useState(0)
 
-  const debouncedQ = useDebounce(query, 280)
+  const debouncedQ = useDebounce(query, 120)
 
   useEffect(() => {
     const q = debouncedQ.trim()

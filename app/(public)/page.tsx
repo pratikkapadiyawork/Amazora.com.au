@@ -10,16 +10,22 @@ import { NewsletterCTA }       from '@/components/home/NewsletterCTA'
 import type { Metadata }       from 'next'
 import type { ProductCard }    from '@/types'
 import type { Category }       from '@prisma/client'
+import { DEFAULT_KEYWORDS, websiteJsonLd } from '@/lib/seo'
 
 export const revalidate = 3600
 
 export const metadata: Metadata = {
   title:       'Amazora — Premium Gifts & Lifestyle | Australia',
-  description: 'Discover curated premium gifts: marble chess sets, leather accessories, humidors, hip flasks. Free AU delivery over A$99. Trusted by Australians.',
+  description:
+    'Shop Amazora Australia — premium gifts, marble chess sets, leather accessories, humidors, hip flasks & unique Australian gifts. Fast delivery. Free shipping over A$99.',
+  keywords:    DEFAULT_KEYWORDS,
+  alternates:  { canonical: 'https://amazora.com.au' },
   openGraph: {
-    title:       'Amazora — Premium Gifts & Lifestyle | Australia',
-    description: 'Curated premium gifts. Free AU delivery. Trusted by Australians.',
-    images: [{ url: '/og-home.jpg', width: 1200, height: 630 }],
+    title:       'Amazora — Premium Gifts Australia | amazora.com.au',
+    description: 'Australia\'s premium gift marketplace. Search Amazora for curated luxury gifts with free delivery over A$99.',
+    url:         'https://amazora.com.au',
+    locale:      'en_AU',
+    images:      [{ url: '/images/australia_special.jpeg', width: 1200, height: 630, alt: 'Amazora Australian premium gifts' }],
   },
 }
 
@@ -57,23 +63,13 @@ export default async function HomePage() {
     console.error('Homepage DB fetch failed:', err)
   }
 
-  const orgJsonLd = {
-    '@context':    'https://schema.org',
-    '@type':       'Organization',
-    name:          'Amazora',
-    url:           'https://amazora.com.au',
-    logo:          'https://amazora.com.au/logo.png',
-    description:   'Premium Australian lifestyle and gifting marketplace',
-    address:       { '@type': 'PostalAddress', addressCountry: 'AU' },
-    contactPoint:  { '@type': 'ContactPoint', contactType: 'customer service', email: 'hello@amazora.com.au' },
-    sameAs:        ['https://instagram.com/amazora.au', 'https://facebook.com/amazora.au'],
-  }
+  const jsonLd = websiteJsonLd()
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="overflow-x-hidden">
         <HeroSection />
