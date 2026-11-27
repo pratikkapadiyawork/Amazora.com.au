@@ -33,12 +33,13 @@ export function CategoryGrid({ categories }: { categories: CategoryTile[] }) {
             <Reveal
               key={c.slug}
               delay={i * 0.06}
-              className={`${SPANS[i] ?? ''} ${i === 0 ? 'col-span-2 row-span-2' : ''}`}
+              className={`${SPANS[i] ?? ''} ${i === 0 ? 'col-span-2 row-span-2' : ''} ${i === 7 ? 'max-lg:col-span-2' : ''}`}
             >
               <Link
                 href={`/category/${c.slug}`}
                 className="group relative block h-full rounded-[22px] overflow-hidden ring-1 ring-white/5 hover:ring-[#F3D27A]/60 transition-all product-img-container"
               >
+                <div data-anim-img className="absolute inset-0">
                 <Image
                   src={c.cover || categoryImage(c.slug)}
                   alt={c.name}
@@ -46,6 +47,7 @@ export function CategoryGrid({ categories }: { categories: CategoryTile[] }) {
                   sizes={i === 0 ? '(max-width: 1024px) 100vw, 640px' : '(max-width: 1024px) 50vw, 320px'}
                   className="object-cover group-hover:scale-105 transition-transform duration-[900ms]"
                 />
+                </div>
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,10,9,0)_35%,rgba(11,10,9,0.92)_100%)]" />
                 <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 flex items-end justify-between gap-3">
                   <div>

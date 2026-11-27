@@ -8,7 +8,7 @@ export function SmoothScroll() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     if (window.matchMedia('(pointer: coarse)').matches) return
-    const lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 1, smoothWheel: true, anchors: { offset: -110 } })
+    const lenis = new Lenis({ lerp: 0.075, wheelMultiplier: 0.95, touchMultiplier: 1, smoothWheel: true, anchors: { offset: -110 }, autoRaf: false })
     let raf = 0
     const tick = (t: number) => { lenis.raf(t); raf = requestAnimationFrame(tick) }
     raf = requestAnimationFrame(tick)

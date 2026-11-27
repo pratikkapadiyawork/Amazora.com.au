@@ -91,7 +91,9 @@ export function CollectorsVault({ collections }: { collections: VaultCollection[
                   transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
                   className="absolute inset-0"
                 >
+                  <div data-anim-img className="absolute inset-0">
                   <Image src={item.image} alt={item.name} fill sizes="(max-width: 1024px) 100vw, 680px" className="object-cover" />
+                  </div>
                 </motion.div>
               </AnimatePresence>
               {off > 0 && (
@@ -137,6 +139,7 @@ export function CollectorsVault({ collections }: { collections: VaultCollection[
                     onClick={() => setSel(i)}
                     aria-label={it.variant}
                     title={it.variant}
+                    data-float
                     className={`relative aspect-square rounded-xl overflow-hidden product-img-container ring-offset-2 ring-offset-[#0B0A09] transition-all ${
                       i === sel ? 'ring-2 ring-[#F3D27A]' : 'ring-1 ring-white/10 opacity-70 hover:opacity-100'
                     }`}

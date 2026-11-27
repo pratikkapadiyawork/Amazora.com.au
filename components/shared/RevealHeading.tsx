@@ -1,34 +1,37 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import type { ElementType, ReactNode } from 'react'
+import { useEffect, useRef, type ElementType, type ReactNode } from 'react'
+import { animate, onScroll, splitText, stagger } from 'animejs'
 
-/** Heading whose words rise out of a mask when it scrolls into view. */
+/**
+ * Heading split into characters with anime.js: letters rise out of a clipped line in a wave when the
+ * heading enters the viewport, then the whole heading drifts gently against the scroll.
+ */
 export function RevealHeading({
   children, as = 'h2', className = '', delay = 0,
 }: { children: string; as?: ElementType; className?: string; delay?: number }) {
-  const reduce = useReducedMotion()
+  const ref = useRef<HTMLElement>(null)
   const Tag = as
-  const words = children.split(' ')
-  if (reduce) return <Tag className={className}>{children}</Tag>
-  return (
-    <Tag className={className} aria-label={children}>
-      {words.map((w, i) => (
-        <span key={i} aria-hidden className="inline-block overflow-hidden align-bottom pb-[0.08em] -mb-[0.08em]">
-          <motion.span
-            className="inline-block will-change-transform"
-            initial={{ y: '110%', rotate: 4 }}
-            whileInView={{ y: '0%', rotate: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.9, delay: delay + i * 0.07, ease: [0.19, 1, 0.22, 1] }}
-          >
-            {w}
-          </motion.span>
-          {i < words.length - 1 && ' '}
-        </span>
-      ))}
-    </Tag>
-  )
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const split = splitText(el, { words: { wrap: 'clip' }, chars: true, accessible: true })
+    const enter = animate(split.chars, {
+      y: ['110%', '0%'], rotate: [8, 0], opacity: [0, 1],
+      duration: 1000, delay: stagger(22, { start: delay * 1000 }), ease: 'outExpo',
+      autoplay: onScroll({ target: el, enter: 'bottom top', repeat: false }),
+    })
+    const drift = animate(el, {
+      y: [24, -24], ease: 'linear',
+      autoplay: onScroll({ target: el, enter: 'bottom top', leave: 'top bottom', sync: 0.3 }),
+    })
+    return () => { enter.revert(); drift.revert(); split.revert() }
+  }, [delay])
+
+  return <Tag ref={ref} className={className}>{children}</Tag>
 }
 
 export function Reveal({ children, className = '', delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
@@ -37,10 +40,10 @@ export function Reveal({ children, className = '', delay = 0 }: { children: Reac
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.9, delay, ease: [0.19, 1, 0.22, 1] }}
+      transition={{ duration: 1, delay, ease: [0.19, 1, 0.22, 1] }}
     >
       {children}
     </motion.div>

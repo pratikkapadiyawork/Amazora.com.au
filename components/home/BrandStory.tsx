@@ -77,7 +77,7 @@ export function BrandStory({ images = [], stats }: { images?: string[]; stats: {
               <Image src={c} alt="" fill sizes="260px" className="object-cover" />
             </motion.div>
           )}
-          <div className="absolute left-[8%] bottom-[6%] rounded-2xl bg-black/70 backdrop-blur border border-[#F3D27A]/30 px-5 py-4">
+          <div data-float className="absolute left-[8%] bottom-[6%] rounded-2xl bg-black/70 backdrop-blur border border-[#F3D27A]/30 px-5 py-4">
             <p className="text-[#F3D27A] font-display text-lg">Australian owned</p>
             <p className="text-[#A99F8C] text-sm">Free delivery over A$99</p>
           </div>

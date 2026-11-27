@@ -13,7 +13,7 @@ export function TrustBar() {
       <div className="max-w-[1280px] mx-auto px-4 md:px-6 grid grid-cols-2 lg:grid-cols-4 gap-6">
         {TRUST_ITEMS.map(({ icon: Icon, title, desc }) => (
           <div key={title} className="flex items-center gap-4">
-            <span className="w-11 h-11 rounded-full border border-[#D9A93F]/30 flex items-center justify-center text-[#F3D27A] shrink-0">
+            <span data-float className="w-11 h-11 rounded-full border border-[#D9A93F]/30 flex items-center justify-center text-[#F3D27A] shrink-0">
               <Icon size={18} />
             </span>
             <div>

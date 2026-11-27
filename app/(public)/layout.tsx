@@ -7,11 +7,15 @@ import { SmoothScroll } from '@/components/motion/SmoothScroll'
 import { ScrollProgress } from '@/components/motion/ScrollProgress'
 import { IntroCurtain } from '@/components/motion/IntroCurtain'
 import { SiteBackgroundLoader } from '@/components/three/SiteBackgroundLoader'
+import { VectorLayer } from '@/components/motion/VectorLayer'
+import { MotionDirector } from '@/components/motion/MotionDirector'
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative flex flex-col min-h-screen">
       <SiteBackgroundLoader />
+      <VectorLayer />
+      <MotionDirector />
       <SmoothScroll />
       <ScrollProgress />
       <IntroCurtain />

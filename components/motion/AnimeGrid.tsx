@@ -40,6 +40,8 @@ export function AnimeGrid({ children, className = '' }: { children: ReactNode; c
       const dir = c % 2 === 0 ? 1 : -1
       return animate(col, {
         translateY: [dir * amp, -dir * amp],
+        rotateX: narrow ? [0, 0] : [5, -5],
+        rotateZ: narrow ? [0, 0] : [dir * -0.6, dir * 0.6],
         ease: 'linear',
         autoplay: onScroll({ target: el, enter: 'bottom top', leave: 'top bottom', sync: 0.25 }),
       })

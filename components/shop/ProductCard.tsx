@@ -56,6 +56,7 @@ export function ProductCard({ product, priority = false }: { product: T; priorit
         {/* Image stage */}
         <Link href={`/shop/${product.slug}`} className="block" aria-label={product.name}>
           <div className="relative aspect-[4/5] overflow-hidden product-img-container">
+            <div data-anim-img className="absolute inset-0 will-change-transform">
             <SmartImage
               src={product.images[0] ?? ''}
               alt={product.name}
@@ -73,6 +74,7 @@ export function ProductCard({ product, priority = false }: { product: T; priorit
                 sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 320px"
               />
             )}
+            </div>
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/35 to-transparent pointer-events-none" />
 
             {onSale && (
