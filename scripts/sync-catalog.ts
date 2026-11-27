@@ -61,38 +61,42 @@ async function main() {
       catIds[slug] = row.id
     }
 
-    let created = 0
+    let created = 0, adopted = 0
     for (const p of items) {
-      const exists = await prisma.product.findUnique({ where: { slug: p.slug }, select: { id: true } })
-      if (exists) {
+      const data = {
+        name:         p.name,
+        shortDesc:    p.shortDesc,
+        description:  p.description,
+        price:        salePrice(p.price),
+        comparePrice: p.price,
+        isOnSale:     true,
+        salePercent:  BLACK_FRIDAY_PERCENT,
+        saleLabel:    'Black Friday',
+        saleEndsAt:   BLACK_FRIDAY_ENDS,
+        sku:          p.sku,
+        images:       p.images,
+        categoryId:   catIds[p.category],
+        isActive:     true,
+        isFeatured:   p.featured,
+        tags:         [...p.tags, 'black-friday'],
+        seoTitle:     `${p.name} | Buy Online Australia — Amazora`,
+        seoDesc:      p.shortDesc.slice(0, 155),
+        // stagger createdAt so "New Arrivals" keeps the catalog order
+        createdAt:    new Date(Date.UTC(2026, 10, 27, 0, 0, 0) - p.sort * 1000),
+      }
+      const exists = await prisma.product.findUnique({ where: { slug: p.slug }, select: { id: true, tags: true } })
+      if (exists?.tags.includes('black-friday')) {
+        // already synced once — keep any price/sale edits made in /admin/sales
         await prisma.product.update({ where: { slug: p.slug }, data: { isActive: true, images: p.images } })
         continue
       }
-      await prisma.product.create({
-        data: {
-          slug:         p.slug,
-          name:         p.name,
-          shortDesc:    p.shortDesc,
-          description:  p.description,
-          price:        salePrice(p.price),
-          comparePrice: p.price,
-          isOnSale:     true,
-          salePercent:  BLACK_FRIDAY_PERCENT,
-          saleLabel:    'Black Friday',
-          saleEndsAt:   BLACK_FRIDAY_ENDS,
-          sku:          p.sku,
-          images:       p.images,
-          categoryId:   catIds[p.category],
-          stock:        25,
-          isActive:     true,
-          isFeatured:   p.featured,
-          tags:         [...p.tags, 'black-friday'],
-          seoTitle:     `${p.name} | Buy Online Australia — Amazora`,
-          seoDesc:      p.shortDesc.slice(0, 155),
-          // stagger createdAt so "New Arrivals" keeps the catalog order
-          createdAt:    new Date(Date.UTC(2026, 10, 27, 0, 0, 0) - p.sort * 1000),
-        },
-      })
+      if (exists) {
+        // an older product used this slug — take it over with the new catalog data
+        await prisma.product.update({ where: { slug: p.slug }, data })
+        adopted++
+        continue
+      }
+      await prisma.product.create({ data: { ...data, slug: p.slug, stock: 25 } })
       created++
     }
 
@@ -101,7 +105,7 @@ async function main() {
       data:  { isActive: false, isFeatured: false },
     })
 
-    console.log(`[catalog] ${items.length} catalog products (${created} new), ${hidden.count} old products hidden`)
+    console.log(`[catalog] ${items.length} catalog products (${created} new, ${adopted} updated), ${hidden.count} old products hidden`)
   } catch (err) {
     console.error('[catalog] sync failed — build continues with existing data:', err)
   } finally {
