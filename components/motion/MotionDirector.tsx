@@ -31,7 +31,7 @@ export function MotionDirector() {
           rotateX: [narrow ? 0 : 7, 0],
           scale: [0.965, 1],
           ease: 'outQuad',
-          autoplay: onScroll({ target: s, enter: 'bottom top', leave: 'center top', sync: 0.4 }),
+          autoplay: onScroll({ target: s, enter: 'bottom top', leave: 'center top', sync: true }),
         }))
       })
 
@@ -40,7 +40,7 @@ export function MotionDirector() {
           scale: [1.16, 1.02],
           y: ['-5%', '5%'],
           ease: 'linear',
-          autoplay: onScroll({ target: img.parentElement ?? img, enter: 'bottom top', leave: 'top bottom', sync: 0.3 }),
+          autoplay: onScroll({ target: img.parentElement ?? img, enter: 'bottom top', leave: 'top bottom', sync: true }),
         }))
       })
 

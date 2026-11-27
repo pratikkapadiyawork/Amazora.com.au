@@ -139,7 +139,6 @@ export function CollectorsVault({ collections }: { collections: VaultCollection[
                     onClick={() => setSel(i)}
                     aria-label={it.variant}
                     title={it.variant}
-                    data-float
                     className={`relative aspect-square rounded-xl overflow-hidden product-img-container ring-offset-2 ring-offset-[#0B0A09] transition-all ${
                       i === sel ? 'ring-2 ring-[#F3D27A]' : 'ring-1 ring-white/10 opacity-70 hover:opacity-100'
                     }`}

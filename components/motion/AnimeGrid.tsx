@@ -22,14 +22,16 @@ export function AnimeGrid({ children, className = '' }: { children: ReactNode; c
     const pars = items.map(i => i.firstElementChild as HTMLElement)
     if (!items.length) return
 
-    utils.set(items, { opacity: 0, translateY: 70, rotateX: 14, scale: 0.94 })
+    utils.set(items, { opacity: 0, translateY: 70, scale: 0.94 })
     const entrance = animate(items, {
-      opacity: 1, translateY: 0, rotateX: 0, scale: 1,
+      opacity: 1, translateY: 0, scale: 1,
       duration: 1100,
       ease: 'outExpo',
       delay: stagger(70),
-      autoplay: onScroll({ target: el, enter: 'bottom-=8% top', repeat: false }),
+      autoplay: onScroll({ target: el, enter: 'bottom top', repeat: false }),
+      onBegin: () => items.forEach(i => (i.style.pointerEvents = '')),
     })
+    items.forEach(i => (i.style.pointerEvents = 'none'))
 
     // group cards by column (by their x position) and give columns opposite drift
     const narrow = window.innerWidth < 768
@@ -40,10 +42,9 @@ export function AnimeGrid({ children, className = '' }: { children: ReactNode; c
       const dir = c % 2 === 0 ? 1 : -1
       return animate(col, {
         translateY: [dir * amp, -dir * amp],
-        rotateX: narrow ? [0, 0] : [5, -5],
-        rotateZ: narrow ? [0, 0] : [dir * -0.6, dir * 0.6],
+        rotate: narrow ? [0, 0] : [dir * -0.6, dir * 0.6],
         ease: 'linear',
-        autoplay: onScroll({ target: el, enter: 'bottom top', leave: 'top bottom', sync: 0.25 }),
+        autoplay: onScroll({ target: el, enter: 'bottom top', leave: 'top bottom', sync: true }),
       })
     })
 
@@ -54,7 +55,7 @@ export function AnimeGrid({ children, className = '' }: { children: ReactNode; c
   }, [])
 
   return (
-    <div ref={ref} className={className} style={{ perspective: 1200 }}>
+    <div ref={ref} className={className}>
       {Children.map(children, child => (
         <div className="anime-item will-change-transform">
           <div className="anime-par h-full">{child}</div>

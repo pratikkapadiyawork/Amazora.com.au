@@ -26,7 +26,7 @@ export function RevealHeading({
     })
     const drift = animate(el, {
       y: [24, -24], ease: 'linear',
-      autoplay: onScroll({ target: el, enter: 'bottom top', leave: 'top bottom', sync: 0.3 }),
+      autoplay: onScroll({ target: el, enter: 'bottom top', leave: 'top bottom', sync: true }),
     })
     return () => { enter.revert(); drift.revert(); split.revert() }
   }, [delay])

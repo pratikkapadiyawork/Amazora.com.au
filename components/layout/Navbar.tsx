@@ -127,7 +127,7 @@ export function Navbar() {
 
             <div className="hidden lg:block">
               <NavIconButton
-                href="/account/wishlist"
+                href="/saved"
                 label={`Wishlist (${wishlistCount} items)`}
                 icon={<Heart size={20} />}
                 badge={wishlistCount}

@@ -27,7 +27,7 @@ export function VectorLayer() {
       .add(lines, { draw: ['0 0', '0 1'], duration: 2200, delay: stagger(25) })
       .add('.vl-oct', { opacity: [0, 1], duration: 900 }, '-=1600')
 
-    const scrollOpts = (target: Element) => ({ target, enter: 'top top', leave: 'bottom bottom', sync: 0.35 })
+    const scrollOpts = (target: Element) => ({ target, enter: 'top top', leave: 'bottom bottom', sync: true })
 
     const body = document.body
     const spin = animate('.vl-octs', {
