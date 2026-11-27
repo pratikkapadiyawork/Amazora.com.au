@@ -87,7 +87,7 @@ export function websiteJsonLd() {
         '@id': `${SITE}/#organization`,
         name: SITE_NAME,
         url: SITE,
-        logo: `${SITE}/logo.png`,
+        logo: `${SITE}/brand/amazora-logo-light.png`,
         description: 'Premium Australian gifting marketplace',
         address: {
           '@type': 'PostalAddress',

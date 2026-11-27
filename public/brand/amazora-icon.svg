@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Amazora"><title>Amazora</title>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBE7A1"/>
+      <stop offset="0.35" stop-color="#E2B857"/>
+      <stop offset="0.65" stop-color="#B8862B"/>
+      <stop offset="1" stop-color="#F3D27A"/>
+    </linearGradient>
+    <linearGradient id="gv" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FCEBB0"/>
+      <stop offset="0.5" stop-color="#D9A93F"/>
+      <stop offset="1" stop-color="#9C6F1C"/>
+    </linearGradient>
+  </defs><rect width="512" height="512" rx="112.6" fill="#0B0A09"/><path d="M437.08,331.01 L331.01,437.08 L180.99,437.08 L74.92,331.01 L74.92,180.99 L180.99,74.92 L331.01,74.92 L437.08,180.99 Z" fill="url(#g)"/><path d="M411.73,320.51 L320.51,411.73 L191.49,411.73 L100.27,320.51 L100.27,191.49 L191.49,100.27 L320.51,100.27 L411.73,191.49 Z" fill="#0B0A09"/><path d="M411.73,320.51 L320.51,411.73 L191.49,411.73 L100.27,320.51 L100.27,191.49 L191.49,100.27 L320.51,100.27 L411.73,191.49 Z" fill="none" stroke="url(#g)" stroke-width="3.53" opacity="0.55"/><path d="M154.08,373.60 L244.24,126.64 L271.68,126.64 L201.12,373.60 Z M267.76,169.76 L291.28,126.64 L373.60,373.60 L326.56,373.60 Z M197.20,295.20 L259.92,263.84 L318.72,295.20 L310.88,318.72 L259.92,291.28 L208.96,318.72 Z" fill="url(#g)"/><path d="M350.08,126.64 Q355.02,149.14 377.52,154.08 Q355.02,159.02 350.08,181.52 Q345.14,159.02 322.64,154.08 Q345.14,149.14 350.08,126.64 Z" fill="#FFF4D2"/></svg>

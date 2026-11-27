@@ -16,10 +16,12 @@ export default function SignInPage() {
         fallbackRedirectUrl="/account"
         appearance={{
           variables: {
-            colorPrimary:       '#e63946',
-            colorBackground:    '#f1faee',
-            colorText:          '#1d3557',
-            colorTextSecondary: '#457b9d',
+            colorPrimary:       '#D9A93F',
+            colorBackground:    '#141210',
+            colorText:          '#F4ECDC',
+            colorTextSecondary: '#A99F8C',
+            colorInputBackground: '#1C1916',
+            colorInputText:     '#F4ECDC',
             borderRadius:       '12px',
           },
           elements: {

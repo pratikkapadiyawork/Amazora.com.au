@@ -25,10 +25,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
         position="top-right"
         toastOptions={{
           style: {
-            background: 'rgba(12,4,32,0.92)',
+            background: 'rgba(20,18,16,0.96)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(211,145,176,0.2)',
-            color: '#F5F0F2',
+            border: '1px solid rgba(217,169,63,0.3)',
+            color: '#F4ECDC',
             borderRadius: '14px',
             fontFamily: 'var(--font-jakarta)',
           },

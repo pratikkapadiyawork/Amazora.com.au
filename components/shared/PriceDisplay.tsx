@@ -40,7 +40,7 @@ export function PriceDisplay({
 
   return (
     <div className={`flex items-center gap-2 flex-wrap ${className}`}>
-      <span className={`${s.price} text-brand-navy`}>
+      <span className={`${s.price} text-[#F3D27A] tabular-nums`}>
         A${price.toFixed(2)}
       </span>
       {hasDisc && (
@@ -48,7 +48,7 @@ export function PriceDisplay({
           <span className={`${s.compare} text-brand-muted/50 line-through`}>
             A${comparePrice!.toFixed(2)}
           </span>
-          <span className={`${s.badge} bg-brand-red text-white font-bold rounded-full uppercase tracking-wide`}>
+          <span className={`${s.badge} bg-[#E11D2E] text-white font-bold rounded-sm`}>
             Save A${saving}
           </span>
         </>

@@ -29,7 +29,7 @@ export function NewsletterCTA() {
 
   return (
     <section className="relative py-24 px-4 md:px-6 overflow-hidden bg-brand-navy">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(211,145,176,0.13)_0%,transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(217,169,63,0.12)_0%,transparent_70%)]" />
       <div className="absolute top-1/3 left-1/4 w-80 h-80 rounded-full bg-brand-navy/20 blur-[100px] animate-float pointer-events-none gpu" />
 
       <div className="relative z-10 max-w-2xl mx-auto text-center">

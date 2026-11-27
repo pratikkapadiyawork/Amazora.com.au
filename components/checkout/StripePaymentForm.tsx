@@ -96,11 +96,11 @@ export function StripePaymentForm({ clientSecret, orderId, amount }: StripePayme
       options={{
         clientSecret,
         appearance: {
-          theme: 'stripe',
+          theme: 'night',
           variables: {
-            colorPrimary: '#e63946',
-            colorBackground: '#ffffff',
-            colorText: '#1d3557',
+            colorPrimary: '#D9A93F',
+            colorBackground: '#141210',
+            colorText: '#F4ECDC',
             borderRadius: '12px',
           },
         },

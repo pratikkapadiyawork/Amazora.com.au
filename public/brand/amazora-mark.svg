@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Amazora"><title>Amazora</title>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBE7A1"/>
+      <stop offset="0.35" stop-color="#E2B857"/>
+      <stop offset="0.65" stop-color="#B8862B"/>
+      <stop offset="1" stop-color="#F3D27A"/>
+    </linearGradient>
+    <linearGradient id="gv" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FCEBB0"/>
+      <stop offset="0.5" stop-color="#D9A93F"/>
+      <stop offset="1" stop-color="#9C6F1C"/>
+    </linearGradient>
+  </defs><path d="M113.89,84.66 L84.66,113.89 L43.34,113.89 L14.11,84.66 L14.11,43.34 L43.34,14.11 L84.66,14.11 L113.89,43.34 Z" fill="url(#g)"/><path d="M106.90,81.77 L81.77,106.90 L46.23,106.90 L21.10,81.77 L21.10,46.23 L46.23,21.10 L81.77,21.10 L106.90,46.23 Z" fill="#0B0A09"/><path d="M106.90,81.77 L81.77,106.90 L46.23,106.90 L21.10,81.77 L21.10,46.23 L46.23,21.10 L81.77,21.10 L106.90,46.23 Z" fill="none" stroke="url(#g)" stroke-width="0.97" opacity="0.55"/><path d="M35.92,96.40 L60.76,28.36 L68.32,28.36 L48.88,96.40 Z M67.24,40.24 L73.72,28.36 L96.40,96.40 L83.44,96.40 Z M47.80,74.80 L65.08,66.16 L81.28,74.80 L79.12,81.28 L65.08,73.72 L51.04,81.28 Z" fill="url(#g)"/><path d="M89.92,28.36 Q91.28,34.56 97.48,35.92 Q91.28,37.28 89.92,43.48 Q88.56,37.28 82.36,35.92 Q88.56,34.56 89.92,28.36 Z" fill="#FFF4D2"/></svg>

@@ -72,7 +72,7 @@ export function SocialLinks({ className = '', variant = 'row', size = 'md' }: Pr
             ${sizeMap[size]} rounded-xl flex items-center justify-center
             glass-dark border border-white/10 text-white/60
             hover:text-white hover:border-brand-red/30
-            hover:shadow-[0_4px_20px_rgba(211,145,176,0.3)]
+            hover:shadow-[0_4px_20px_rgba(217,169,63,0.3)]
             transition-all duration-200
           `}
         >

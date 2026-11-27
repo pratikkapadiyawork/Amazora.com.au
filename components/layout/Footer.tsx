@@ -1,4 +1,5 @@
 ﻿import Link from 'next/link'
+import { Logo } from '@/components/shared/Logo'
 import { SocialLinks }    from '@/components/shared/SocialLinks'
 import { PaymentBadges }  from '@/components/shared/PaymentBadges'
 import { CATEGORIES, SITE } from '@/lib/constants'
@@ -20,17 +21,13 @@ const LEGAL_LINKS = [
 
 export function Footer() {
   return (
-    <footer role="contentinfo" className="bg-brand-navy text-white">
+    <footer role="contentinfo" className="relative bg-[#070606] text-white border-t border-[rgba(217,169,63,0.18)]">
       <div className="max-w-[1280px] mx-auto px-4 md:px-6 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
           {/* Column 1 — Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block mb-4" aria-label="Amazora homepage">
-              <span className="font-display text-2xl font-bold">
-                <span className="text-brand-red">A</span>mazora
-              </span>
-            </Link>
+            <Logo variant="full" height={56} className="mb-5" />
             <p className="text-white/50 text-sm leading-relaxed mb-5">
               {SITE.tagline} Curated premium gifts delivered free across Australia.
             </p>

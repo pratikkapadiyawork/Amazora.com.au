@@ -149,10 +149,10 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const post = POSTS[slug]
   if (!post) return (
-    <div style={{ background: '#f1faee', minHeight: '100vh' }} className="flex items-center justify-center">
+    <div style={{ background: '#0B0A09', minHeight: '100vh' }} className="flex items-center justify-center">
       <div className="text-center">
-        <h1 className="font-display text-2xl mb-4" style={{ color: '#1d3557' }}>Post not found</h1>
-        <Link href="/blog" className="font-body text-sm" style={{ color: '#e63946' }}>← All Gift Guides</Link>
+        <h1 className="font-display text-2xl mb-4" style={{ color: '#F4ECDC' }}>Post not found</h1>
+        <Link href="/blog" className="font-body text-sm" style={{ color: '#D9A93F' }}>← All Gift Guides</Link>
       </div>
     </div>
   )
@@ -160,36 +160,36 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const sections = post.body.split('\n\n').filter(Boolean)
 
   return (
-    <div style={{ background: '#f1faee', minHeight: '100vh' }}>
-      <div style={{ background: 'linear-gradient(160deg, #1d3557 0%, #457b9d 100%)' }} className="py-14 md:py-20">
+    <div style={{ background: '#0B0A09', minHeight: '100vh' }}>
+      <div style={{ background: 'linear-gradient(160deg, #0F0D0B 0%, #3A2C14 100%)' }} className="py-14 md:py-20">
         <div className="max-w-[760px] mx-auto px-4 md:px-6">
-          <Link href="/blog" className="font-body text-sm mb-5 block" style={{ color: 'rgba(168,218,220,0.55)' }}>
+          <Link href="/blog" className="font-body text-sm mb-5 block" style={{ color: 'rgba(217,169,63,0.55)' }}>
             ← All Gift Guides
           </Link>
-          <h1 className="font-display mb-4" style={{ fontSize: 'clamp(1.8rem,4vw,3rem)', color: '#f1faee', lineHeight: 1.15 }}>
+          <h1 className="font-display mb-4" style={{ fontSize: 'clamp(1.8rem,4vw,3rem)', color: '#F4ECDC', lineHeight: 1.15 }}>
             {post.title}
           </h1>
-          <p className="font-body" style={{ color: 'rgba(168,218,220,0.6)', fontSize: '1rem' }}>{post.meta}</p>
+          <p className="font-body" style={{ color: 'rgba(217,169,63,0.6)', fontSize: '1rem' }}>{post.meta}</p>
         </div>
       </div>
 
       <div className="max-w-[760px] mx-auto px-4 md:px-6 py-12 space-y-5">
         {sections.map((section, i) => {
           if (section.startsWith('## ')) return (
-            <h2 key={i} className="font-display pt-4" style={{ fontSize: '1.6rem', color: '#1d3557' }}>
+            <h2 key={i} className="font-display pt-4" style={{ fontSize: '1.6rem', color: '#F4ECDC' }}>
               {section.slice(3)}
             </h2>
           )
           return (
-            <p key={i} className="font-body leading-relaxed" style={{ color: '#457b9d', lineHeight: 1.8 }}>
+            <p key={i} className="font-body leading-relaxed" style={{ color: '#A99F8C', lineHeight: 1.8 }}>
               {section}
             </p>
           )
         })}
 
         {post.related.length > 0 && (
-          <div className="mt-14 pt-10 border-t" style={{ borderColor: 'rgba(168,218,220,0.3)' }}>
-            <h3 className="font-display text-xl mb-5" style={{ color: '#1d3557' }}>More Gift Guides</h3>
+          <div className="mt-14 pt-10 border-t" style={{ borderColor: 'rgba(217,169,63,0.3)' }}>
+            <h3 className="font-display text-xl mb-5" style={{ color: '#F4ECDC' }}>More Gift Guides</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {post.related.map(relSlug => {
                 const rel = POSTS[relSlug]
@@ -197,9 +197,9 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 return (
                   <Link key={relSlug} href={`/blog/${relSlug}`}>
                     <div className="p-5 rounded-2xl border transition-all hover:-translate-y-1"
-                      style={{ background: 'white', borderColor: 'rgba(168,218,220,0.4)', boxShadow: '0 2px 12px rgba(29,53,87,0.07)' }}>
-                      <p className="font-display text-base leading-snug mb-1" style={{ color: '#1d3557' }}>{rel.title}</p>
-                      <p className="font-body text-xs" style={{ color: '#457b9d' }}>Read guide →</p>
+                      style={{ background: 'white', borderColor: 'rgba(217,169,63,0.4)', boxShadow: '0 2px 12px rgba(15,13,11,0.07)' }}>
+                      <p className="font-display text-base leading-snug mb-1" style={{ color: '#F4ECDC' }}>{rel.title}</p>
+                      <p className="font-body text-xs" style={{ color: '#A99F8C' }}>Read guide →</p>
                     </div>
                   </Link>
                 )

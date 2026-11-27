@@ -76,7 +76,7 @@ export function NavbarMobile() {
                     {/* Icon with badge */}
                     <div className="relative">
                       <motion.div
-                        animate={{ color: active ? '#D391B0' : 'rgba(211,145,176,0.5)' }}
+                        animate={{ color: active ? '#F3D27A' : 'rgba(244,236,220,0.55)' }}
                         transition={{ duration: 0.2 }}
                       >
                         <Icon size={22} strokeWidth={active ? 2.5 : 1.8} />
@@ -86,7 +86,7 @@ export function NavbarMobile() {
                           key={badge}
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          className="absolute -top-1.5 -right-2 min-w-[16px] h-[16px] px-0.5 rounded-full bg-brand-red text-white text-[9px] font-bold flex items-center justify-center"
+                          className="absolute -top-1.5 -right-2 min-w-[16px] h-[16px] px-0.5 rounded-full bg-[#E11D2E] text-white text-[9px] font-bold flex items-center justify-center"
                           aria-hidden="true"
                         >
                           {badge > 9 ? '9+' : badge}
@@ -97,7 +97,7 @@ export function NavbarMobile() {
                     {/* Label */}
                     <motion.span
                       animate={{
-                        color:      active ? '#D391B0' : 'rgba(211,145,176,0.45)',
+                        color:      active ? '#F3D27A' : 'rgba(244,236,220,0.5)',
                         fontWeight: active ? 600 : 400,
                       }}
                       className="text-[9.5px]"

@@ -1,32 +1,40 @@
-﻿import type { Metadata, Viewport } from 'next'
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import localFont from 'next/font/local'
 import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 import { Providers } from '@/components/providers/Providers'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
-const playfair = Playfair_Display({
-  subsets: ['latin'],
+// Display face: Cinzel — Roman inscriptional capitals, matching the logo wordmark
+const display = localFont({
   variable: '--font-playfair',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
-  preload: true,
+  src: [
+    { path: './fonts/cinzel-400.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/cinzel-500.woff2', weight: '500', style: 'normal' },
+    { path: './fonts/cinzel-600.woff2', weight: '600', style: 'normal' },
+    { path: './fonts/cinzel-700.woff2', weight: '700', style: 'normal' },
+  ],
 })
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
+const jakarta = localFont({
   variable: '--font-jakarta',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
-  preload: true,
+  src: [
+    { path: './fonts/jakarta-300.woff2', weight: '300', style: 'normal' },
+    { path: './fonts/jakarta-400.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/jakarta-500.woff2', weight: '500', style: 'normal' },
+    { path: './fonts/jakarta-600.woff2', weight: '600', style: 'normal' },
+    { path: './fonts/jakarta-700.woff2', weight: '700', style: 'normal' },
+    { path: './fonts/jakarta-800.woff2', weight: '800', style: 'normal' },
+  ],
 })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://amazora.com.au'),
   title: {
-    default:  'Amazora — Premium Gifts & Lifestyle | Australia',
+    default:  'Amazora — Premium Gifts Australia | Black Friday Sale',
     template: '%s | Amazora Australia',
   },
   description:
@@ -48,13 +56,13 @@ export const metadata: Metadata = {
     locale:   'en_AU',
     url:      'https://amazora.com.au',
     siteName: 'Amazora',
-    title:    'Amazora — Premium Gifts & Lifestyle | Australia',
-    description: 'Curated premium gifts. Free AU delivery. Trusted by Australians.',
+    title:    'Amazora Black Friday — Premium Gifts Australia',
+    description: '20% off premium gifts this Black Friday. Free AU delivery over A$99.',
     images: [{
       url:    'https://amazora.com.au/og-default.jpg',
       width:  1200,
       height: 630,
-      alt:    'Amazora — Premium Gifts Australia',
+      alt:    'Amazora Black Friday — Premium Gifts Australia',
     }],
   },
   twitter: {
@@ -80,14 +88,18 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   icons: {
-    icon:     '/favicon.ico',
+    icon: [
+      { url: '/brand/amazora-icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
     apple:    '/apple-touch-icon.png',
     shortcut: '/favicon-32x32.png',
   },
 }
 
 export const viewport: Viewport = {
-  themeColor:   '#0C0420',
+  themeColor:   '#0B0A09',
   width:        'device-width',
   initialScale:  1,
   maximumScale:  5,
@@ -99,10 +111,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ClerkProvider>
       <html
         lang="en-AU"
-        className={`${playfair.variable} ${jakarta.variable}`}
+        className={`${display.variable} ${jakarta.variable}`}
         suppressHydrationWarning
       >
-        <body className="bg-brand-teal text-brand-navy antialiased">
+        <body className="bg-[#0B0A09] text-[#F4ECDC] antialiased">
           <Providers>
             {children}
           </Providers>

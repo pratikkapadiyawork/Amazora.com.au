@@ -5,6 +5,7 @@ import { ProductCard }      from '@/components/shop/ProductCard'
 import { ShopFiltersBar }   from '@/components/shop/ShopFiltersBar'
 import type { ProductCard as T } from '@/types'
 import type { Prisma }      from '@prisma/client'
+import { BLACK_FRIDAY }     from '@/lib/constants'
 
 export const revalidate = 3600
 
@@ -24,7 +25,7 @@ interface PageProps {
   }>
 }
 
-const PAGE_SIZE = 24
+const PAGE_SIZE = 36
 
 export default async function ShopPage({ searchParams }: PageProps) {
   const params = await searchParams
@@ -74,15 +75,17 @@ export default async function ShopPage({ searchParams }: PageProps) {
   const totalPages = Math.ceil(total / PAGE_SIZE)
 
   return (
-    <div className="min-h-screen bg-brand-cream">
+    <div className="min-h-screen bg-[#0B0A09]">
       {/* Header */}
-      <div className="bg-brand-navy text-white py-12 px-4">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-brand-teal/70 text-xs font-bold uppercase tracking-widest mb-2">Amazora</p>
-          <h1 className="text-3xl md:text-4xl font-bold">
-            {params.q ? `Search: "${params.q}"` : 'Shop All Products'}
+      <div className="relative overflow-hidden border-b border-[rgba(217,169,63,0.16)] bg-[radial-gradient(ellipse_at_20%_0%,#2A2014_0%,#0B0A09_60%)] py-14 px-4">
+        <div className="max-w-7xl mx-auto relative">
+          <p className="inline-flex items-center text-sm font-bold text-white bg-[#E11D2E] px-3 py-1 mb-4 rounded-sm">
+            Black Friday −{BLACK_FRIDAY.percent}%
+          </p>
+          <h1 className="font-display font-semibold text-4xl md:text-5xl text-gold-grad">
+            {params.q ? `Search: “${params.q}”` : 'The Black Friday Collection'}
           </h1>
-          <p className="text-white/60 mt-2">{total} {total === 1 ? 'product' : 'products'} available</p>
+          <p className="text-[#A99F8C] mt-3">{total} {total === 1 ? 'piece' : 'pieces'}, with free delivery in Australia over A$99</p>
         </div>
       </div>
 

@@ -148,7 +148,7 @@ export function CartDrawer() {
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 280, damping: 30, mass: 0.8 }}
             className="fixed inset-y-0 right-0 z-drawer w-full max-w-[440px] flex flex-col overflow-hidden shadow-[-24px_0_80px_rgba(0,0,0,0.5)] isolate"
-            style={{ zIndex: 251, background: '#1d3557' }}
+            style={{ zIndex: 251, background: '#0F0D0B' }}
           >
             {/* Header */}
             <div className="flex-none flex items-center justify-between px-5 py-4 border-b border-white/10">

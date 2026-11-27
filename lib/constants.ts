@@ -29,12 +29,12 @@ export const SHIPPING = [
 export const CATEGORIES = [
   { slug: 'chess-sets', name: 'Marble Chess Sets',  emoji: '♟',  image: '/images/cat-chess-sets.jpg',  desc: 'Handcrafted marble chess sets' },
   { slug: 'mugs',       name: 'Premium Mugs',        emoji: '☕', image: '/images/cat-mugs.jpg',        desc: 'Artisan coffee mugs'           },
-  { slug: 'leather',    name: 'Leather Accessories', emoji: '👜', image: '/images/cat-leather.jpg',     desc: 'Premium leather goods'         },
+  { slug: 'leather',    name: 'Leather & Accessories', emoji: '👜', image: '/images/cat-leather.jpg',     desc: 'Premium leather goods'         },
   { slug: 'humidors',   name: 'Humidors',            emoji: '🪵', image: '/images/cat-humidors.jpg',    desc: 'Cigar humidors & accessories'  },
-  { slug: 'ships',      name: 'Decorative Ships',    emoji: '⚓', image: '/images/cat-ships.jpg',       desc: 'Nautical decor & model ships'  },
-  { slug: 'ceramic',    name: 'Ceramic Decor',       emoji: '🏺', image: '/images/cat-ceramic.jpg',     desc: 'Premium ceramic pieces'        },
+  { slug: 'ships',      name: 'Ships, Planes & Models', emoji: '⚓', image: '/images/cat-ships.jpg',       desc: 'Nautical decor & model ships'  },
+  { slug: 'ceramic',    name: 'Ceramic & Glass Decor', emoji: '🏺', image: '/images/cat-ceramic.jpg',     desc: 'Premium ceramic pieces'        },
   { slug: 'hip-flasks', name: 'Hip Flasks',          emoji: '🥃', image: '/images/cat-hip-flasks.jpg',  desc: 'Stylish flask gifts'           },
-  { slug: 'gifts',      name: 'Premium Gift Sets',   emoji: '🎁', image: '/images/cat-gifts.jpg',       desc: 'Curated gift collections'      },
+  { slug: 'gifts',      name: 'Australian Gifts',    emoji: '🎁', image: '/images/cat-gifts.jpg',       desc: 'Curated gift collections'      },
 ] as const
 
 export const PAYMENT_METHODS = [
@@ -49,11 +49,12 @@ export const PAYMENT_METHODS = [
 ] as const
 
 export const NAV_LINKS = [
-  { href: '/shop',                label: 'Shop All'  },
-  { href: '/category/chess-sets', label: 'Chess Sets' },
-  { href: '/category/leather',    label: 'Leather'   },
-  { href: '/category/humidors',   label: 'Humidors'  },
-  { href: '/category/gifts',      label: 'Gift Sets' },
+  { href: '/shop',               label: 'Black Friday' },
+  { href: '/category/gifts',     label: 'Gifts'        },
+  { href: '/category/leather',   label: 'Accessories'  },
+  { href: '/category/mugs',      label: 'Tankards'     },
+  { href: '/category/ships',     label: 'Models'       },
+  { href: '/category/ceramic',   label: 'Decor'        },
 ] as const
 
 export function generateOrderNumber(): string {
@@ -75,3 +76,10 @@ export function avgRating(reviews: { rating: number }[]): number {
   if (!reviews.length) return 0
   return reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
 }
+
+/** Black Friday campaign — keep in sync with scripts/sync-catalog.ts */
+export const BLACK_FRIDAY = {
+  label:   'Black Friday',
+  percent: 20,
+  endsAt:  '2026-12-01T13:00:00Z', // midnight Sydney, end of Cyber Monday
+} as const

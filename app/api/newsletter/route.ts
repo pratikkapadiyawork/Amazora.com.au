@@ -30,21 +30,20 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from:    `Amazora <${process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev'}>`,
         to:      email,
-        subject: 'Welcome to Amazora 🌹',
+        subject: 'Welcome to Amazora',
         html: `
-          <div style="font-family:'Plus Jakarta Sans',system-ui,sans-serif;max-width:560px;margin:0 auto;padding:40px 24px;background:#FAF7F8;">
-            <h1 style="font-family:Georgia,serif;color:#0C0420;font-size:28px;margin:0 0 8px;">
-              <span style="color:#D391B0;">A</span>mazora
-            </h1>
-            <p style="color:#7B466A;margin:0 0 24px;">🇦🇺 Premium Australian Marketplace</p>
-            <h2 style="font-family:Georgia,serif;color:#0C0420;">Welcome aboard!</h2>
-            <p style="color:#5D3C64;line-height:1.7;">
+          <div style="font-family:'Plus Jakarta Sans',system-ui,sans-serif;max-width:560px;margin:0 auto;padding:40px 24px;background:#0B0A09;color:#F4ECDC;">
+            <a href="https://amazora.com.au" style="display:inline-block;margin:0 0 28px;">
+              <img src="https://amazora.com.au/brand/amazora-logo.png" alt="Amazora" width="240" style="display:block;width:240px;height:auto;border:0;" />
+            </a>
+            <h2 style="font-family:Georgia,serif;color:#F3D27A;">Welcome aboard!</h2>
+            <p style="color:#CDBE9C;line-height:1.7;">
               Thank you for subscribing. You&apos;ll be the first to know about new arrivals,
               exclusive offers and gift inspiration.
             </p>
             <a href="https://amazora.com.au/shop"
-              style="display:inline-block;margin-top:24px;padding:14px 32px;background:#D391B0;color:#fff;text-decoration:none;border-radius:12px;font-weight:700;">
-              Start Shopping →
+              style="display:inline-block;margin-top:24px;padding:14px 32px;background:#D9A93F;color:#0B0A09;text-decoration:none;border-radius:999px;font-weight:700;">
+              Shop the Black Friday sale
             </a>
           </div>
         `,

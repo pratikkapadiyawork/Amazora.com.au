@@ -6,6 +6,8 @@ import { motion }            from 'framer-motion'
 import { ShoppingBag, Heart, Star, ChevronRight, Truck, Shield, RefreshCw } from 'lucide-react'
 import { SmartImage }        from '@/components/shared/SmartImage'
 import { PriceDisplay }      from '@/components/shared/PriceDisplay'
+import { BLACK_FRIDAY }      from '@/lib/constants'
+import { useCountdown, pad2 } from '@/hooks/useCountdown'
 import { QtyInput }          from '@/components/shared/QtyInput'
 import { useCartStore }      from '@/store/cartStore'
 import { useWishlistStore }  from '@/store/wishlistStore'
@@ -79,8 +81,8 @@ export function ProductDetail({ product }: Props) {
               fallbackGradient="from-brand-navy to-brand-steel"
             />
             {onSale && (
-              <div className="absolute top-4 left-4 bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">
-                Sale
+              <div className="absolute top-4 left-4 bg-[#E11D2E] text-white text-sm font-bold px-3 py-1.5 rounded-sm">
+                Black Friday −{Math.round((1 - Number(product.price) / Number(product.comparePrice)) * 100)}%
               </div>
             )}
           </motion.div>
@@ -141,6 +143,7 @@ export function ProductDetail({ product }: Props) {
               comparePrice={product.comparePrice ? Number(product.comparePrice) : null}
               size="xl"
             />
+            {onSale && <SaleEndsNote />}
           </div>
 
           {product.shortDesc && (
@@ -289,5 +292,17 @@ export function ProductDetail({ product }: Props) {
         </div>
       )}
     </div>
+  )
+}
+
+function SaleEndsNote() {
+  const t = useCountdown(BLACK_FRIDAY.endsAt)
+  if (!t.ready || t.done) return null
+  return (
+    <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-[#E11D2E]/40 bg-[#E11D2E]/10 px-3 py-1.5 text-sm text-[#F4ECDC]">
+      <span className="h-2 w-2 rounded-full bg-[#E11D2E]" />
+      Black Friday price ends in{' '}
+      <span className="font-semibold tabular-nums">{t.days}d {pad2(t.hours)}h {pad2(t.minutes)}m</span>
+    </p>
   )
 }

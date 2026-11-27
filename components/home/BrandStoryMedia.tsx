@@ -123,7 +123,7 @@ export function BrandStoryMedia() {
       <section
         ref={sectionRef}
         id="our-story"
-        style={{ background: '#1d3557' }}
+        style={{ background: '#0F0D0B' }}
         className="py-16 md:py-24 overflow-hidden scroll-mt-20"
       >
         <div className="max-w-[1280px] mx-auto px-4 md:px-6">
@@ -131,23 +131,23 @@ export function BrandStoryMedia() {
             <div>
               <span
                 className="font-body text-[11px] font-bold tracking-[0.22em] uppercase block mb-4"
-                style={{ color: '#a8dadc' }}
+                style={{ color: '#D9A93F' }}
               >
                 Our Story
               </span>
               <h2
                 className="font-display mb-6"
-                style={{ fontSize: 'clamp(2rem,5vw,3.8rem)', color: '#f1faee', lineHeight: 1.08 }}
+                style={{ fontSize: 'clamp(2rem,5vw,3.8rem)', color: '#F4ECDC', lineHeight: 1.08 }}
               >
                 Built in Australia.
                 <br />
-                <span style={{ color: '#e63946', fontStyle: 'italic' }}>Loud</span> about quality.
+                <span style={{ color: '#D9A93F' }}>Loud</span> about quality.
                 <br />
                 Quiet on markup.
               </h2>
               <p
                 className="font-body mb-4 leading-relaxed"
-                style={{ color: 'rgba(241,250,238,0.82)', fontSize: '1.05rem' }}
+                style={{ color: 'rgba(244,236,220,0.82)', fontSize: '1.05rem' }}
               >
                 Amazora is the home for premium gifts Australians actually want — marble chess,
                 leather classics, humidors, hip flasks, and pieces you will not find in a generic
@@ -155,9 +155,9 @@ export function BrandStoryMedia() {
               </p>
               <p
                 className="font-body mb-8 leading-relaxed"
-                style={{ color: 'rgba(168,218,220,0.65)', fontSize: '0.95rem' }}
+                style={{ color: 'rgba(217,169,63,0.65)', fontSize: '0.95rem' }}
               >
-                Search <strong className="text-[#a8dadc]">Amazora</strong> for curated craftsmanship,
+                Search <strong className="text-[#D9A93F]">Amazora</strong> for curated craftsmanship,
                 fast delivery, and a brand that stands behind every order.
               </p>
               <Link href="/about">
@@ -166,9 +166,9 @@ export function BrandStoryMedia() {
                   whileTap={{ scale: 0.97 }}
                   className="h-12 px-8 rounded-xl font-body font-semibold text-sm"
                   style={{
-                    background: '#e63946',
-                    color: '#fff',
-                    boxShadow: '0 8px 32px rgba(230,57,70,0.45)',
+                    background: 'linear-gradient(135deg,#FBE7A1,#E2B857 40%,#B8862B)',
+                    color: '#0B0A09',
+                    boxShadow: '0 8px 32px rgba(217,169,63,0.45)',
                   }}
                 >
                   Our Story →
@@ -186,7 +186,7 @@ export function BrandStoryMedia() {
                 style={{
                   visibility: isFloating ? 'hidden' : 'visible',
                   boxShadow: isFloating ? undefined : '0 20px 60px rgba(0,0,0,0.45)',
-                  border: isFloating ? undefined : '1px solid rgba(168,218,220,0.18)',
+                  border: isFloating ? undefined : '1px solid rgba(217,169,63,0.18)',
                 }}
                 aria-hidden={isFloating}
               >
@@ -208,7 +208,7 @@ export function BrandStoryMedia() {
                       className="absolute inset-0 pointer-events-none"
                       style={{
                         background:
-                          'linear-gradient(180deg, transparent 50%, rgba(13,25,41,0.75) 100%)',
+                          'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.75) 100%)',
                       }}
                     />
                     <div className="absolute top-3 right-3 flex gap-2 z-10">
@@ -251,9 +251,9 @@ export function BrandStoryMedia() {
                 transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
                 className="absolute -bottom-3 -left-3 rounded-2xl p-4 z-10"
                 style={{
-                  background: 'rgba(29,53,87,0.94)',
+                  background: 'rgba(15,13,11,0.94)',
                   backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(168,218,220,0.2)',
+                  border: '1px solid rgba(217,169,63,0.2)',
                   boxShadow: '0 12px 40px rgba(0,0,0,0.35)',
                 }}
               >
@@ -262,10 +262,10 @@ export function BrandStoryMedia() {
                     <Image src={POSTER_SRC} alt="" fill className="object-cover" sizes="40px" />
                   </div>
                   <div>
-                    <p className="font-body font-bold text-sm" style={{ color: '#f1faee' }}>
+                    <p className="font-body font-bold text-sm" style={{ color: '#F4ECDC' }}>
                       Australian Business
                     </p>
-                    <p className="font-body text-xs" style={{ color: 'rgba(168,218,220,0.65)' }}>
+                    <p className="font-body text-xs" style={{ color: 'rgba(217,169,63,0.65)' }}>
                       Free shipping over A$99 · amazora.com.au
                     </p>
                   </div>
@@ -288,7 +288,7 @@ export function BrandStoryMedia() {
             right: 'max(1rem, env(safe-area-inset-right, 0px))',
             width: 'min(92vw, 300px)',
             aspectRatio: '16/10',
-            background: '#152641',
+            background: '#0B0A09',
           }}
         >
           <video
@@ -306,7 +306,7 @@ export function BrandStoryMedia() {
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: 'linear-gradient(180deg, transparent 50%, rgba(13,25,41,0.75) 100%)',
+              background: 'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.75) 100%)',
             }}
           />
           <div className="absolute top-3 right-3 flex gap-2 z-10">
@@ -339,9 +339,9 @@ export function BrandStoryMedia() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           onClick={reopenPopup}
-          className="fixed z-[239] flex items-center justify-center gap-2 px-4 h-11 rounded-full text-white text-xs font-bold shadow-lg border border-white/20"
+          className="fixed z-[239] flex items-center justify-center gap-2 px-4 h-11 rounded-full text-[#0B0A09] text-xs font-bold shadow-lg border border-white/20"
           style={{
-            background: '#e63946',
+            background: '#D9A93F',
             bottom: 'calc(5.5rem + env(safe-area-inset-bottom, 0px))',
             right: '1rem',
           }}

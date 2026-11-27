@@ -10,7 +10,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <Navbar />
       <main
         id="main-content"
-        className="flex-1 pt-[72px] pb-[68px] lg:pb-0"
+        className="flex-1 pt-[108px] pb-[68px] lg:pb-0"
       >
         {children}
       </main>

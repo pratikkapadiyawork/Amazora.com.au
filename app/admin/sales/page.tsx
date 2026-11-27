@@ -66,7 +66,7 @@ export default async function AdminSalesPage() {
           <p className="text-brand-muted text-xs leading-relaxed">
             <strong className="text-brand-navy">How it works:</strong>{' '}
             Toggle &ldquo;Start Sale&rdquo; to mark a product as on-sale. Set the discount % and an optional end date.
-            The SummerSaleShowcase on the homepage will automatically show sale products from the database
+            The Black Friday homepage sections automatically show sale products from the database
             when 4 or more active sale products exist. The hardcoded fallback is always shown otherwise.
           </p>
         </div>

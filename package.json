@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && tsx scripts/sync-catalog.ts && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync-catalog": "SYNC_CATALOG=1 tsx scripts/sync-catalog.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
