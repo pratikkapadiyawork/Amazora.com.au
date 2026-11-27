@@ -9,7 +9,7 @@ const TRUST_ITEMS = [
 
 export function TrustBar() {
   return (
-    <section className="bg-[#0F0D0B] border-b border-[rgba(217,169,63,0.14)] py-7">
+    <section className="bg-[rgba(15,13,11,0.4)] backdrop-blur-xl border-b border-[rgba(217,169,63,0.14)] py-7">
       <div className="max-w-[1280px] mx-auto px-4 md:px-6 grid grid-cols-2 lg:grid-cols-4 gap-6">
         {TRUST_ITEMS.map(({ icon: Icon, title, desc }) => (
           <div key={title} className="flex items-center gap-4">

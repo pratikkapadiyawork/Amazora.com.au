@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { RevealHeading } from '@/components/shared/RevealHeading'
 import Image from 'next/image'
 import { useState } from 'react'
+import { AnimeGrid } from '@/components/motion/AnimeGrid'
 
 export interface KeyItem { slug: string; brand: string; image: string; price: number; comparePrice: number | null }
 
@@ -14,10 +15,10 @@ export function KeychainWall({ items }: { items: KeyItem[] }) {
   const p = items[0]
 
   return (
-    <section className="relative py-24 px-4 md:px-6 bg-[linear-gradient(180deg,#0B0A09,#120F0C_50%,#0B0A09)]">
+    <section className="relative py-24 px-4 md:px-6 bg-[rgba(14,12,10,0.4)]">
       <div className="max-w-[1280px] mx-auto">
         <div className="grid lg:grid-cols-[0.8fr_1.6fr] gap-12 items-start">
-          <div className="lg:sticky lg:top-36">
+          <div className="lg:sticky lg:top-36 glass-panel rounded-[24px] p-6 md:p-8">
             <RevealHeading as="h2" className="font-display font-semibold text-[clamp(2rem,4vw,3.2rem)] leading-tight text-[#F4ECDC]">
               The Marque Wall
             </RevealHeading>
@@ -35,7 +36,7 @@ export function KeychainWall({ items }: { items: KeyItem[] }) {
           </div>
 
           <div>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+            <AnimeGrid key={all ? 'all' : 'some'} className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
               {shown.map(k => (
                 <Link
                   key={k.slug}
@@ -48,7 +49,7 @@ export function KeychainWall({ items }: { items: KeyItem[] }) {
                   </div>
                 </Link>
               ))}
-            </div>
+            </AnimeGrid>
             {items.length > 18 && (
               <button
                 onClick={() => setAll(v => !v)}

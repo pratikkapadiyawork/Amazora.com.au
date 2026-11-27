@@ -1,7 +1,8 @@
 ﻿'use client'
 
 import Link     from 'next/link'
-import { RevealHeading, Reveal } from '@/components/shared/RevealHeading'
+import { RevealHeading } from '@/components/shared/RevealHeading'
+import { AnimeGrid } from '@/components/motion/AnimeGrid'
 import { motion } from 'framer-motion'
 
 import { ProductCard }       from '@/components/shop/ProductCard'
@@ -21,7 +22,7 @@ export function FeaturedProducts({ products, title, subtitle, id, bg = 'white' }
   return (
     <section
       id={id}
-      className={`py-24 px-4 md:px-6 ${bg === 'parchment' ? 'bg-[#0F0D0B]' : 'bg-[#0B0A09]'}`}
+      className={`py-24 px-4 md:px-6 ${bg === 'parchment' ? 'bg-[rgba(15,13,11,0.4)]' : 'bg-[rgba(11,10,9,0.4)]'}`}
     >
       <div className="max-w-[1280px] mx-auto">
         <div className="flex items-end justify-between mb-10">
@@ -39,13 +40,11 @@ export function FeaturedProducts({ products, title, subtitle, id, bg = 'white' }
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-          {products.map((p, i) => (
-            <Reveal key={p.id} delay={(i % 4) * 0.08}>
-              <ProductCard product={p} />
-            </Reveal>
+        <AnimeGrid className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          {products.map(p => (
+            <ProductCard key={p.id} product={p} />
           ))}
-        </div>
+        </AnimeGrid>
       </div>
     </section>
   )

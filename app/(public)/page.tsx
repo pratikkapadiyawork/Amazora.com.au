@@ -113,7 +113,7 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="overflow-x-hidden bg-[#0B0A09]">
+      <div className="overflow-x-hidden bg-[rgba(11,10,9,0.4)]">
         <HeroSection />
         <DealTicker items={ticker} />
         <div id="showroom" className="scroll-mt-24"><Showroom products={showroom} /></div>

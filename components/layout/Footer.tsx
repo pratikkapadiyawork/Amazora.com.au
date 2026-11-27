@@ -21,7 +21,7 @@ const LEGAL_LINKS = [
 
 export function Footer() {
   return (
-    <footer role="contentinfo" className="relative bg-[#070606] text-white border-t border-[rgba(217,169,63,0.18)]">
+    <footer role="contentinfo" className="relative z-[1] bg-[rgba(7,6,6,0.6)] backdrop-blur-lg text-white border-t border-[rgba(217,169,63,0.18)]">
       <div className="max-w-[1280px] mx-auto px-4 md:px-6 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 

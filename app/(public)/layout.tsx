@@ -6,16 +6,19 @@ import { SearchModal }  from '@/components/layout/SearchModal'
 import { SmoothScroll } from '@/components/motion/SmoothScroll'
 import { ScrollProgress } from '@/components/motion/ScrollProgress'
 import { IntroCurtain } from '@/components/motion/IntroCurtain'
+import { SiteBackgroundLoader } from '@/components/three/SiteBackgroundLoader'
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="relative flex flex-col min-h-screen">
+      <SiteBackgroundLoader />
       <SmoothScroll />
       <ScrollProgress />
       <IntroCurtain />
       <Navbar />
       <main
         id="main-content"
+        style={{ position: 'relative', zIndex: 1 }}
         className="flex-1 pt-[108px] pb-[68px] lg:pb-0"
       >
         {children}

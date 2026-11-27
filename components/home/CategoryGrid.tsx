@@ -14,7 +14,7 @@ const SPANS = ['lg:col-span-2 lg:row-span-2', '', '', 'lg:col-span-2', '', '', '
 export function CategoryGrid({ categories }: { categories: CategoryTile[] }) {
   if (!categories.length) return null
   return (
-    <section className="py-24 px-4 md:px-6 bg-[#0B0A09]">
+    <section className="py-24 px-4 md:px-6 bg-[rgba(11,10,9,0.4)]">
       <div className="max-w-[1280px] mx-auto">
         <div className="flex items-end justify-between mb-10 gap-6">
           <div>

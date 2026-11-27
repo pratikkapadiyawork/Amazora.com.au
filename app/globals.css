@@ -673,3 +673,47 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GLASS LAYER — every surface is ~60% see-through over the live WebGL background
+═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --glass-fill:   rgba(20, 18, 16, 0.40);
+  --glass-fill-2: rgba(28, 24, 20, 0.40);
+  --glass-edge:   rgba(243, 210, 122, 0.16);
+  --glass-blur:   18px;
+}
+.bg-white, .bg-brand-cream, .bg-brand-surface {
+  background-color: var(--glass-fill) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}
+.bg-white { border: 1px solid var(--glass-edge); }
+/* full-page wrappers: tint only (no blur over the whole viewport) */
+.min-h-screen.bg-brand-cream { border: 0 !important; }
+.min-h-screen.bg-brand-cream:not(#_) { backdrop-filter: unset; }
+@supports (backdrop-filter: blur(1px)) { .bg-brand-cream.min-h-screen { backdrop-filter: blur(0px) !important; } }
+.bg-brand-navy, .bg-brand-navy-dark {
+  background-color: rgba(15, 13, 11, 0.45) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+}
+.bg-brand-teal\/10, .bg-brand-red\/10 { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+@utility glass-panel {
+  background: linear-gradient(145deg, rgba(36, 30, 22, 0.42), rgba(14, 12, 10, 0.38));
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid rgba(243, 210, 122, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 244, 210, 0.08), 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+.glass-premium {
+  background: linear-gradient(135deg, rgba(20,18,16,0.55), rgba(11,10,9,0.6)) !important;
+  border-color: rgba(243,210,122,0.18) !important;
+}
+input:not([type=checkbox]):not([type=radio]), select, textarea {
+  background-color: rgba(11, 10, 9, 0.45);
+}
+/* cheaper glass on phones */
+@media (max-width: 767px) {
+  :root { --glass-blur: 10px; }
+}

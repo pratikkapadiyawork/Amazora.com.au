@@ -149,7 +149,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const post = POSTS[slug]
   if (!post) return (
-    <div style={{ background: '#0B0A09', minHeight: '100vh' }} className="flex items-center justify-center">
+    <div style={{ background: 'rgba(11,10,9,0.4)', minHeight: '100vh' }} className="flex items-center justify-center">
       <div className="text-center">
         <h1 className="font-display text-2xl mb-4" style={{ color: '#F4ECDC' }}>Post not found</h1>
         <Link href="/blog" className="font-body text-sm" style={{ color: '#D9A93F' }}>← All Gift Guides</Link>
@@ -160,8 +160,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const sections = post.body.split('\n\n').filter(Boolean)
 
   return (
-    <div style={{ background: '#0B0A09', minHeight: '100vh' }}>
-      <div style={{ background: 'linear-gradient(160deg, #0F0D0B 0%, #3A2C14 100%)' }} className="py-14 md:py-20">
+    <div style={{ background: 'rgba(11,10,9,0.4)', minHeight: '100vh' }}>
+      <div style={{ background: 'linear-gradient(160deg, rgba(15,13,11,0.45) 0%, rgba(58,44,20,0.45) 100%)' }} className="py-14 md:py-20">
         <div className="max-w-[760px] mx-auto px-4 md:px-6">
           <Link href="/blog" className="font-body text-sm mb-5 block" style={{ color: 'rgba(217,169,63,0.55)' }}>
             ← All Gift Guides

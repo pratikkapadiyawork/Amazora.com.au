@@ -5,6 +5,7 @@ import { ProductDetail }     from '@/components/shop/ProductDetail'
 import { ProductCard }       from '@/components/shop/ProductCard'
 import { productJsonLd, productKeywords, SITE_URL } from '@/lib/seo'
 import type { ProductCard as T } from '@/types'
+import { AnimeGrid } from '@/components/motion/AnimeGrid'
 
 export const revalidate = 3600
 
@@ -120,11 +121,11 @@ export default async function ProductPage({ params }: PageProps) {
       {relatedProducts.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 py-16">
           <h2 className="text-2xl font-bold text-brand-navy mb-8">You might also like</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <AnimeGrid className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {(relatedProducts as T[]).map(p => (
               <ProductCard key={p.id} product={p} />
             ))}
-          </div>
+          </AnimeGrid>
         </section>
       )}
     </div>

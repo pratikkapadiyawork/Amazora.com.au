@@ -10,7 +10,7 @@ const GUIDES = [
 
 export function GiftGuideCards() {
   return (
-    <section style={{ background: '#0B0A09' }} className="py-16 px-4 md:px-6">
+    <section style={{ background: 'rgba(11,10,9,0.4)' }} className="py-16 px-4 md:px-6">
       <div className="max-w-[1280px] mx-auto">
         <div className="text-center mb-10">
           <span className="font-body text-[11px] font-bold tracking-[0.22em] uppercase"

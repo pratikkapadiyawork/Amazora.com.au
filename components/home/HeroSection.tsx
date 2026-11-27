@@ -17,7 +17,7 @@ export function HeroSection() {
   const reduce = useReducedMotion()
 
   return (
-    <section aria-label="Amazora Black Friday" className="relative overflow-hidden bf-noise bg-[#0B0A09] min-h-[calc(100svh-108px)] flex items-end lg:items-center">
+    <section aria-label="Amazora Black Friday" className="relative overflow-hidden bf-noise bg-[rgba(11,10,9,0.4)] min-h-[calc(100svh-108px)] flex items-end lg:items-center">
       {/* light + 3D */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[-20%] right-[-10%] w-[900px] h-[900px] rounded-full bg-[radial-gradient(closest-side,rgba(226,184,87,0.20),transparent)]" />

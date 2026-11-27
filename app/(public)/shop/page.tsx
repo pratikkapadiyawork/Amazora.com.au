@@ -6,6 +6,7 @@ import { ShopFiltersBar }   from '@/components/shop/ShopFiltersBar'
 import type { ProductCard as T } from '@/types'
 import type { Prisma }      from '@prisma/client'
 import { BLACK_FRIDAY }     from '@/lib/constants'
+import { AnimeGrid } from '@/components/motion/AnimeGrid'
 
 export const revalidate = 3600
 
@@ -75,9 +76,9 @@ export default async function ShopPage({ searchParams }: PageProps) {
   const totalPages = Math.ceil(total / PAGE_SIZE)
 
   return (
-    <div className="min-h-screen bg-[#0B0A09]">
+    <div className="min-h-screen bg-[rgba(11,10,9,0.4)]">
       {/* Header */}
-      <div className="relative overflow-hidden border-b border-[rgba(217,169,63,0.16)] bg-[radial-gradient(ellipse_at_20%_0%,#2A2014_0%,#0B0A09_60%)] py-14 px-4">
+      <div className="relative overflow-hidden border-b border-[rgba(217,169,63,0.16)] bg-[radial-gradient(ellipse_at_20%_0%,rgba(80,58,22,0.35)_0%,rgba(11,10,9,0.4)_60%)] backdrop-blur-sm py-14 px-4">
         <div className="max-w-7xl mx-auto relative">
           <p className="inline-flex items-center text-sm font-bold text-white bg-[#E11D2E] px-3 py-1 mb-4 rounded-sm">
             Black Friday −{BLACK_FRIDAY.percent}%
@@ -107,11 +108,11 @@ export default async function ShopPage({ searchParams }: PageProps) {
             <p className="text-brand-muted">Try adjusting your filters or search term.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <AnimeGrid className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {(products as T[]).map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
-          </div>
+          </AnimeGrid>
         )}
 
         {/* Pagination */}

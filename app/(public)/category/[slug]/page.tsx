@@ -5,6 +5,7 @@ import { prisma }           from '@/lib/db'
 import { ProductCard }      from '@/components/shop/ProductCard'
 import { SmartImage }       from '@/components/shared/SmartImage'
 import type { ProductCard as T } from '@/types'
+import { AnimeGrid } from '@/components/motion/AnimeGrid'
 
 export const revalidate = 3600
 
@@ -86,11 +87,11 @@ export default async function CategoryPage({ params }: PageProps) {
             <p className="text-brand-muted mt-2">Products are on their way.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <AnimeGrid className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {(products as T[]).map(p => (
               <ProductCard key={p.id} product={p} />
             ))}
-          </div>
+          </AnimeGrid>
         )}
       </div>
     </div>

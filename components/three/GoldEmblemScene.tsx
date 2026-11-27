@@ -132,7 +132,7 @@ export default function GoldEmblemScene({ className = '' }: { className?: string
     scene.add(warm)
 
     // ── Gold dust ────────────────────────────────────────────────
-    const COUNT = window.innerWidth < 768 ? 500 : 1200
+    const COUNT = 1
     const pos = new Float32Array(COUNT * 3)
     const seed = new Float32Array(COUNT)
     for (let i = 0; i < COUNT; i++) {
@@ -167,7 +167,8 @@ export default function GoldEmblemScene({ className = '' }: { className?: string
         }`,
     })
     const dust = new THREE.Points(dustGeo, dustMat)
-    scene.add(dust)
+    // the site-wide background already supplies gold dust; keep this scene to the emblem
+    dust.visible = false
 
     // ── Size / input / visibility ────────────────────────────────
     // where the emblem sits: right half on wide screens, top centre on narrow ones

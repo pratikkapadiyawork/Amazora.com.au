@@ -40,7 +40,7 @@ export function Showroom({ products }: { products: ShowroomProduct[] }) {
   }
 
   return (
-    <section className="relative overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,#1E1810_0%,#0B0A09_62%)] pt-24 pb-16">
+    <section className="relative overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,rgba(60,44,18,0.35)_0%,rgba(11,10,9,0.4)_62%)] pt-24 pb-16">
       <div className="max-w-[1280px] mx-auto px-4 md:px-6 text-center">
         <RevealHeading as="h2" className="font-display font-semibold text-[clamp(2.2rem,5vw,4rem)] leading-[1.05] text-[#F4ECDC]">
           The Showroom
@@ -50,7 +50,7 @@ export function Showroom({ products }: { products: ShowroomProduct[] }) {
 
       <div ref={stage} className="relative h-[420px] sm:h-[520px] lg:h-[600px] mt-6">
         <ShowroomScene items={sceneItems} onFocus={onFocus} onOpen={onOpen} className="absolute inset-0 outline-none" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0B0A09] to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[rgba(11,10,9,0.5)] to-transparent" />
         <button onClick={() => nudge(1)} aria-label="Previous piece" className="absolute left-3 md:left-10 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-[#F3D27A]/40 bg-black/40 backdrop-blur text-[#F3D27A] grid place-items-center hover:bg-[#F3D27A] hover:text-[#0B0A09] transition-colors">
           <ChevronLeft size={20} />
         </button>
@@ -59,7 +59,7 @@ export function Showroom({ products }: { products: ShowroomProduct[] }) {
         </button>
       </div>
 
-      <div className="relative max-w-xl mx-auto px-4 text-center min-h-[150px]">
+      <div className="relative max-w-xl mx-4 sm:mx-auto px-6 py-6 text-center min-h-[150px] glass-panel rounded-[28px]">
         <AnimatePresence mode="wait">
           <motion.div key={p.slug} initial={{ opacity: 0, y: 12, filter: 'blur(6px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} exit={{ opacity: 0, y: -10, filter: 'blur(6px)' }} transition={{ duration: 0.35 }}>
             <p className="text-sm text-[#D9A93F]">{p.category}</p>

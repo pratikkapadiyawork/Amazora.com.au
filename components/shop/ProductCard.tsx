@@ -52,7 +52,7 @@ export function ProductCard({ product, priority = false }: { product: T; priorit
       transition={{ type: 'spring', stiffness: 260, damping: 22 }}
       className="h-full group relative rounded-[18px] p-[1px] bg-[linear-gradient(160deg,rgba(243,210,122,0.35),rgba(243,210,122,0.04)_40%,rgba(243,210,122,0.18))] hover:bg-[linear-gradient(160deg,rgba(243,210,122,0.9),rgba(184,134,43,0.25)_45%,rgba(243,210,122,0.7))] transition-[background] duration-500"
     >
-      <div className="relative h-full rounded-[17px] overflow-hidden bg-[#121010]">
+      <div className="relative h-full rounded-[17px] overflow-hidden bg-[rgba(18,16,14,0.42)] backdrop-blur-md">
         {/* Image stage */}
         <Link href={`/shop/${product.slug}`} className="block" aria-label={product.name}>
           <div className="relative aspect-[4/5] overflow-hidden product-img-container">
@@ -88,7 +88,7 @@ export function ProductCard({ product, priority = false }: { product: T; priorit
               <button
                 onClick={handleAdd}
                 className={`w-full h-10 rounded-full text-sm font-semibold transition-colors ${
-                  added ? 'bg-emerald-500 text-white' : 'bg-[#0B0A09]/90 text-[#F3D27A] hover:bg-[#F3D27A] hover:text-[#0B0A09] backdrop-blur'
+                  added ? 'bg-emerald-500 text-white' : 'bg-[rgba(11,10,9,0.4)]/90 text-[#F3D27A] hover:bg-[#F3D27A] hover:text-[#0B0A09] backdrop-blur'
                 }`}
               >
                 {added ? 'Added to bag' : 'Quick add'}

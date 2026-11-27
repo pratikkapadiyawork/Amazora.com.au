@@ -2,6 +2,7 @@ import { prisma } from '@/lib/db'
 import { ProductCard } from '@/components/shop/ProductCard'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { AnimeGrid } from '@/components/motion/AnimeGrid'
 
 export const metadata: Metadata = {
   title: "Home Decor Gifts — Unique Australian Home Gifts | Amazora",
@@ -24,8 +25,8 @@ export default async function ForHomePage() {
   })
 
   return (
-    <div style={{ background: '#0B0A09', minHeight: '100vh' }}>
-      <div style={{ background: 'linear-gradient(160deg, #0F0D0B 0%, #3A2C14 100%)' }} className="py-16 md:py-20">
+    <div style={{ background: 'rgba(11,10,9,0.4)', minHeight: '100vh' }}>
+      <div style={{ background: 'linear-gradient(160deg, rgba(15,13,11,0.45) 0%, rgba(58,44,20,0.45) 100%)' }} className="py-16 md:py-20">
         <div className="max-w-[1280px] mx-auto px-4 md:px-6">
           <nav className="flex items-center gap-2 text-sm mb-5 font-body" style={{ color: 'rgba(217,169,63,0.55)' }}>
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
@@ -42,9 +43,9 @@ export default async function ForHomePage() {
         </div>
       </div>
       <div className="max-w-[1280px] mx-auto px-4 md:px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+        <AnimeGrid className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
           {products.map(p => <ProductCard key={p.id} product={p as any} />)}
-        </div>
+        </AnimeGrid>
       </div>
     </div>
   )

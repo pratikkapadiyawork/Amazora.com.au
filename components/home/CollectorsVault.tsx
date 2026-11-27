@@ -48,7 +48,7 @@ export function CollectorsVault({ collections }: { collections: VaultCollection[
   }
 
   return (
-    <section id="vault" className="relative py-24 px-4 md:px-6 bg-[#0B0A09] overflow-hidden scroll-mt-28">
+    <section id="vault" className="relative py-24 px-4 md:px-6 bg-[rgba(11,10,9,0.4)] overflow-hidden scroll-mt-28">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_70%_40%,rgba(217,169,63,0.10),transparent_60%)]" />
       <div className="relative max-w-[1280px] mx-auto">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
@@ -106,7 +106,7 @@ export function CollectorsVault({ collections }: { collections: VaultCollection[
           </div>
 
           {/* Details */}
-          <div className="flex flex-col">
+          <div className="flex flex-col glass-panel rounded-[28px] p-6 md:p-8">
             <p className="text-[#A99F8C] text-sm">{col.kicker}</p>
             <AnimatePresence mode="wait">
               <motion.div

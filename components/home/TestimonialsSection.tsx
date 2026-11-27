@@ -51,7 +51,7 @@ export function TestimonialsSection() {
   const next = () => setIdx(a => (a + 1) % REVIEWS.length)
 
   return (
-    <section className="py-20 px-4 md:px-6 bg-white">
+    <section className="py-20 px-4 md:px-6 bg-[rgba(15,13,11,0.35)]">
       <div className="max-w-4xl mx-auto">
         <AnimatedSection className="text-center mb-12">
           <span className="text-brand-red text-[11px] font-bold tracking-[0.22em] uppercase">

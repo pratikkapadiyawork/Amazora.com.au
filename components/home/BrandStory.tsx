@@ -29,9 +29,9 @@ export function BrandStory({ images = [], stats }: { images?: string[]; stats: {
   const [a, b, c] = images
 
   return (
-    <section ref={ref} className="relative overflow-hidden py-28 px-4 md:px-6 bg-[#0F0D0B] border-y border-[rgba(217,169,63,0.12)]">
+    <section ref={ref} className="relative overflow-hidden py-28 px-4 md:px-6 bg-[rgba(15,13,11,0.4)] border-y border-[rgba(217,169,63,0.12)]">
       <div className="max-w-[1280px] mx-auto grid lg:grid-cols-2 gap-16 items-center">
-        <div>
+        <div className="glass-panel rounded-[28px] p-7 md:p-10">
           <RevealHeading as="h2" className="font-display font-semibold text-[clamp(2.2rem,4.6vw,3.8rem)] leading-[1.06] text-[#F4ECDC]">
             Built in Australia, finished like heirlooms
           </RevealHeading>
