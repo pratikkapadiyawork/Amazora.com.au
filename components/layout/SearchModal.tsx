@@ -112,6 +112,7 @@ export function SearchModal() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
+              data-lenis-prevent
               className="mt-4 glass-dark rounded-2xl overflow-hidden border border-white/10 max-h-[70vh] overflow-y-auto scrollbar-hide"
             >
               {/* Loading skeleton */}

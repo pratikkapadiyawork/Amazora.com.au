@@ -1,5 +1,5 @@
 import type { Metadata }     from 'next'
-import { notFound }          from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { prisma }            from '@/lib/db'
 import { ProductDetail }     from '@/components/shop/ProductDetail'
 import { ProductCard }       from '@/components/shop/ProductCard'
@@ -72,7 +72,15 @@ export default async function ProductPage({ params }: PageProps) {
     }).catch(() => null),
   ])
 
-  if (!product) notFound()
+  if (!product) {
+    // retired product from the old catalogue → send shoppers to its collection instead of a 404
+    const old = await prisma.product.findUnique({
+      where:  { slug },
+      select: { category: { select: { slug: true } } },
+    }).catch(() => null)
+    if (old) permanentRedirect(`/category/${old.category.slug}`)
+    notFound()
+  }
 
   // Fetch related products after we have the product
   const relatedProducts = await prisma.product.findMany({

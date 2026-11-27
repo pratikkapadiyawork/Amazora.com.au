@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { RevealHeading } from '@/components/shared/RevealHeading'
 import Image from 'next/image'
 import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -52,9 +53,9 @@ export function CollectorsVault({ collections }: { collections: VaultCollection[
       <div className="relative max-w-[1280px] mx-auto">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
-            <h2 className="font-display font-semibold text-[clamp(2rem,4.4vw,3.4rem)] leading-tight text-[#F4ECDC]">
-              The Collector&apos;s Vault
-            </h2>
+            <RevealHeading as="h2" className="font-display font-semibold text-[clamp(2rem,4.4vw,3.4rem)] leading-tight text-[#F4ECDC]">
+              The Collector’s Vault
+            </RevealHeading>
             <p className="text-[#A99F8C] mt-2 max-w-md">Pick a collection, then the exact edition you want.</p>
           </div>
           {/* Collection tabs */}

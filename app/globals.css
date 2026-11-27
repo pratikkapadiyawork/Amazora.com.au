@@ -651,3 +651,25 @@ input::placeholder, textarea::placeholder { color: rgba(169,159,140,0.6); }
 .product-img-container { background: radial-gradient(ellipse at 50% 40%, #F7F3EC 0%, #E9E2D6 100%); }
 ::selection { background: rgba(217,169,63,0.35); color: #fff; }
 :focus-visible { outline-color: var(--bf-gold); }
+
+/* ── Premium motion helpers ─────────────────────────────────────────── */
+@keyframes goldSheen { 0% { background-position: 200% 50% } 100% { background-position: -200% 50% } }
+.gold-sheen-text {
+  background-image: linear-gradient(100deg, #B8862B 0%, #F3D27A 18%, #FFF4D2 25%, #E2B857 34%, #B8862B 50%, #F3D27A 68%, #FFF4D2 75%, #E2B857 84%, #B8862B 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: goldSheen 9s linear infinite;
+}
+.bf-shine::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 48%, transparent 66%);
+  transform: translateX(-120%); transition: transform 0.9s cubic-bezier(0.19,1,0.22,1);
+}
+.bf-shine:hover::after { transform: translateX(120%); }
+@media (prefers-reduced-motion: reduce) {
+  .gold-sheen-text, .bf-marquee { animation: none !important; }
+}
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }

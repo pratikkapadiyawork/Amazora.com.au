@@ -4,6 +4,7 @@ import { TrustBar }            from '@/components/home/TrustBar'
 import { CategoryGrid, type CategoryTile } from '@/components/home/CategoryGrid'
 import { CollectorsVault, type VaultCollection } from '@/components/home/CollectorsVault'
 import { DealTicker }          from '@/components/home/DealTicker'
+import { Showroom }            from '@/components/home/Showroom'
 import { KeychainWall }        from '@/components/home/KeychainWall'
 import catalog                 from '@/lib/catalog-data.json'
 import { FeaturedProducts }    from '@/components/home/FeaturedProducts'
@@ -58,11 +59,16 @@ export default async function HomePage() {
   const num     = (v: unknown) => (v == null ? null : Number(v))
   const variantOf = (name: string) => (name.includes(' — ') ? name.split(' — ').slice(1).join(' — ') : name)
 
-  // Hero vitrine
-  const heroSlugs = ['ned-kelly-1-gun-large-bronze', 'chess-black-and-coral', 'guitar-style-4']
-  const heroPool  = [...heroSlugs.map(s => bySlug.get(s)).filter(Boolean), ...products.filter(p => p.isFeatured)] as ProductCard[]
-  const picks = [...new Map(heroPool.map(p => [p.slug, p])).values()].slice(0, 3).map(p => ({
-    slug: p.slug, name: p.name, image: p.images[0], price: Number(p.price), comparePrice: num(p.comparePrice),
+  // 3D showroom — one standout piece from each family
+  const showSlugs = [
+    'ned-kelly-1-gun-large-bronze', 'chess-black-and-coral', 'guitar-style-4', 'model-plane-emirates-a380',
+    'big-ship-classic-galleon', 'brass-tudor-mug-21st-birthday', 'humidor', 'hip-flask-jack-daniels-tribute',
+    'cigar-cutter-with-torch-lighter-black', 'marble-ashtray-style-3', 'swan-vase-sculptural', 'belt-style-2',
+    'ned-kelly-arm-extended-copper', 'guitar-style-3', 'keychain-ferrari', 'manicure-set-deluxe-leather-case',
+  ]
+  const showroom = showSlugs.map(s => bySlug.get(s)).filter(Boolean).map(p => ({
+    id: p!.id, slug: p!.slug, name: p!.name, category: p!.category.name, image: p!.images[0],
+    price: Number(p!.price), comparePrice: num(p!.comparePrice),
   }))
 
   // Collector's vault — one tab per product family
@@ -108,8 +114,9 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="overflow-x-hidden bg-[#0B0A09]">
-        <HeroSection picks={picks} />
+        <HeroSection />
         <DealTicker items={ticker} />
+        <div id="showroom" className="scroll-mt-24"><Showroom products={showroom} /></div>
         <TrustBar />
         <CollectorsVault collections={vault} />
         <CategoryGrid categories={tiles} />
@@ -121,7 +128,10 @@ export default async function HomePage() {
           bg="parchment"
         />
         <KeychainWall items={keychains} />
-        <BrandStory />
+        <BrandStory
+          images={[bySlug.get('ned-kelly-1-gun-small-copper')?.images[0], bySlug.get('chess-green-and-white')?.images[0], bySlug.get('keychain-porsche')?.images[0]].filter(Boolean) as string[]}
+          stats={{ pieces: products.length, marques: keychains.length, collections: tiles.length }}
+        />
         <FeaturedProducts
           products={newest}
           title="Just Landed"

@@ -200,7 +200,7 @@ export function CartDrawer() {
             )}
 
             {/* Items */}
-            <div className="flex-1 overflow-y-auto px-5 py-2 scrollbar-hide">
+            <div data-lenis-prevent className="flex-1 overflow-y-auto px-5 py-2 scrollbar-hide">
               {items.length === 0 ? (
                 <EmptyCart onClose={closeCart} />
               ) : (

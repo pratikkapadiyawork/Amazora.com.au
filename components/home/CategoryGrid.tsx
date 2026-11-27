@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { RevealHeading, Reveal } from '@/components/shared/RevealHeading'
 import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
 import { categoryImage } from '@/lib/category-images'
@@ -17,9 +18,9 @@ export function CategoryGrid({ categories }: { categories: CategoryTile[] }) {
       <div className="max-w-[1280px] mx-auto">
         <div className="flex items-end justify-between mb-10 gap-6">
           <div>
-            <h2 className="font-display font-semibold text-[clamp(2rem,4.4vw,3.4rem)] leading-tight text-[#F4ECDC]">
+            <RevealHeading as="h2" className="font-display font-semibold text-[clamp(2rem,4.4vw,3.4rem)] leading-tight text-[#F4ECDC]">
               Shop by collection
-            </h2>
+            </RevealHeading>
             <p className="text-[#A99F8C] mt-2">Every collection is part of the Black Friday sale.</p>
           </div>
           <Link href="/shop" className="hidden md:inline-flex items-center gap-2 text-[#F3D27A] font-semibold hover:text-white transition-colors">
@@ -29,8 +30,9 @@ export function CategoryGrid({ categories }: { categories: CategoryTile[] }) {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 auto-rows-[200px] md:auto-rows-[240px] gap-3 md:gap-4">
           {categories.slice(0, 8).map((c, i) => (
-            <div
+            <Reveal
               key={c.slug}
+              delay={i * 0.06}
               className={`${SPANS[i] ?? ''} ${i === 0 ? 'col-span-2 row-span-2' : ''}`}
             >
               <Link
@@ -59,7 +61,7 @@ export function CategoryGrid({ categories }: { categories: CategoryTile[] }) {
                   </span>
                 </div>
               </Link>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

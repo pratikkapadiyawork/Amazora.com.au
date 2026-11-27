@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { RevealHeading } from '@/components/shared/RevealHeading'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -17,9 +18,9 @@ export function KeychainWall({ items }: { items: KeyItem[] }) {
       <div className="max-w-[1280px] mx-auto">
         <div className="grid lg:grid-cols-[0.8fr_1.6fr] gap-12 items-start">
           <div className="lg:sticky lg:top-36">
-            <h2 className="font-display font-semibold text-[clamp(2rem,4vw,3.2rem)] leading-tight text-[#F4ECDC]">
+            <RevealHeading as="h2" className="font-display font-semibold text-[clamp(2rem,4vw,3.2rem)] leading-tight text-[#F4ECDC]">
               The Marque Wall
-            </h2>
+            </RevealHeading>
             <p className="text-[#B9AF9B] mt-4 leading-relaxed">
               {items.length} solid-metal car logo keychains — from Holden and Ford to Ferrari, Porsche and Tesla.
               The easiest stocking-filler of the season.

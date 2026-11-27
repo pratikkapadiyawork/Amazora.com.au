@@ -9,6 +9,7 @@ import { useWishlistStore } from '@/store/wishlistStore'
 import { avgRating }       from '@/lib/constants'
 import { SmartImage }      from '@/components/shared/SmartImage'
 import type { ProductCard as T }  from '@/types'
+import { TiltCard }        from '@/components/motion/TiltCard'
 
 export function ProductCard({ product, priority = false }: { product: T; priority?: boolean }) {
   const [added, setAdded] = useState(false)
@@ -45,10 +46,11 @@ export function ProductCard({ product, priority = false }: { product: T; priorit
   }
 
   return (
+    <TiltCard className="h-full">
     <motion.article
       whileHover={{ y: -6 }}
       transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-      className="group relative rounded-[18px] p-[1px] bg-[linear-gradient(160deg,rgba(243,210,122,0.35),rgba(243,210,122,0.04)_40%,rgba(243,210,122,0.18))] hover:bg-[linear-gradient(160deg,rgba(243,210,122,0.9),rgba(184,134,43,0.25)_45%,rgba(243,210,122,0.7))] transition-[background] duration-500"
+      className="h-full group relative rounded-[18px] p-[1px] bg-[linear-gradient(160deg,rgba(243,210,122,0.35),rgba(243,210,122,0.04)_40%,rgba(243,210,122,0.18))] hover:bg-[linear-gradient(160deg,rgba(243,210,122,0.9),rgba(184,134,43,0.25)_45%,rgba(243,210,122,0.7))] transition-[background] duration-500"
     >
       <div className="relative h-full rounded-[17px] overflow-hidden bg-[#121010]">
         {/* Image stage */}
@@ -145,5 +147,6 @@ export function ProductCard({ product, priority = false }: { product: T; priorit
         </div>
       </div>
     </motion.article>
+    </TiltCard>
   )
 }

@@ -46,7 +46,7 @@ async function main() {
     return
   }
 
-  const pool   = new Pool({ connectionString: process.env.DATABASE_URL })
+  const pool   = new Pool({ connectionString: process.env.DATABASE_URL!.replace(/sslmode=(prefer|require|verify-ca)\b/, 'sslmode=verify-full') })
   const prisma = new PrismaClient({ adapter: new PrismaPg(pool) })
   const items  = catalog as CatalogItem[]
 
